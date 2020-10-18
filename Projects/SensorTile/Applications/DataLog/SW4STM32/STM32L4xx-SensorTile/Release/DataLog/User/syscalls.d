@@ -1,2 +1,2 @@
 DataLog/User/syscalls.o: \
- /Users/arunanelamaran/Development/v1.2.0\ copy/Projects/SensorTile/Applications/DataLog/Src/syscalls.c
+ /Users/arunanelamaran/Development/v1.2.0UCLA/Projects/SensorTile/Applications/DataLog/Src/syscalls.c

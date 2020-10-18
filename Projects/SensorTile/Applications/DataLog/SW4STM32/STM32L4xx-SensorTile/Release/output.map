@@ -1752,8 +1752,8 @@ Discarded input sections
  .debug_aranges
                 0x0000000000000000       0x80 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_dma.o
  .debug_ranges  0x0000000000000000       0x70 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_dma.o
- .debug_line    0x0000000000000000      0x29d Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_dma.o
- .debug_str     0x0000000000000000      0x1ff Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_dma.o
+ .debug_line    0x0000000000000000      0x29c Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_dma.o
+ .debug_str     0x0000000000000000      0x1fe Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_dma.o
  .comment       0x0000000000000000       0x80 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_dma.o
  .debug_frame   0x0000000000000000      0x204 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_dma.o
  .ARM.attributes
@@ -1910,8 +1910,8 @@ Discarded input sections
  .debug_aranges
                 0x0000000000000000       0x48 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_i2c_ex.o
  .debug_ranges  0x0000000000000000       0x38 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_i2c_ex.o
- .debug_line    0x0000000000000000      0x1cd Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_i2c_ex.o
- .debug_str     0x0000000000000000      0x1be Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_i2c_ex.o
+ .debug_line    0x0000000000000000      0x1cc Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_i2c_ex.o
+ .debug_str     0x0000000000000000      0x1bd Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_i2c_ex.o
  .comment       0x0000000000000000       0x80 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_i2c_ex.o
  .debug_frame   0x0000000000000000      0x100 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_i2c_ex.o
  .ARM.attributes
@@ -2243,8 +2243,8 @@ Discarded input sections
  .debug_aranges
                 0x0000000000000000      0x140 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rtc_ex.o
  .debug_ranges  0x0000000000000000      0x130 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rtc_ex.o
- .debug_line    0x0000000000000000      0x7ab Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rtc_ex.o
- .debug_str     0x0000000000000000      0x541 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rtc_ex.o
+ .debug_line    0x0000000000000000      0x7aa Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rtc_ex.o
+ .debug_str     0x0000000000000000      0x540 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rtc_ex.o
  .comment       0x0000000000000000       0x80 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rtc_ex.o
  .debug_frame   0x0000000000000000      0x598 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rtc_ex.o
  .ARM.attributes
@@ -2346,8 +2346,8 @@ Discarded input sections
  .debug_aranges
                 0x0000000000000000       0x20 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_spi_ex.o
  .debug_ranges  0x0000000000000000       0x10 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_spi_ex.o
- .debug_line    0x0000000000000000       0xa4 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_spi_ex.o
- .debug_str     0x0000000000000000      0x12f Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_spi_ex.o
+ .debug_line    0x0000000000000000       0xa3 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_spi_ex.o
+ .debug_str     0x0000000000000000      0x12e Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_spi_ex.o
  .comment       0x0000000000000000       0x80 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_spi_ex.o
  .debug_frame   0x0000000000000000       0x38 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_spi_ex.o
  .ARM.attributes
@@ -5872,121 +5872,121 @@ LOAD /Applications/Ac6/SystemWorkbench.app/Contents/Eclipse/plugins/fr.ac6.mcu.e
                 0x0000000000001703       0x22 /Applications/Ac6/SystemWorkbench.app/Contents/Eclipse/plugins/fr.ac6.mcu.externaltools.arm-none.macos64_1.15.0.201708311556/tools/compiler/bin/../lib/gcc/arm-none-eabi/6.3.1/thumb/v7e-m/fpv4-sp/hard/crtn.o
 OUTPUT(STM32L4xx-SensorTile.elf elf32-littlearm)
 
-.debug_line     0x0000000000000000    0x12085
- .debug_line    0x0000000000000000       0xd4 DataLog/SW4STM32/startup_stm32l476xx.o
- .debug_line    0x00000000000000d4       0xd4 DataLog/User/cube_hal_l4.o
- .debug_line    0x00000000000001a8      0x1ae DataLog/User/datalog_application.o
- .debug_line    0x0000000000000356      0x21c DataLog/User/main.o
- .debug_line    0x0000000000000572       0xb4 DataLog/User/stm32l4xx_hal_msp.o
- .debug_line    0x0000000000000626      0x108 DataLog/User/stm32l4xx_it.o
- .debug_line    0x000000000000072e      0x2d3 DataLog/User/syscalls.o
- .debug_line    0x0000000000000a01      0x168 DataLog/User/usbd_cdc_interface.o
- .debug_line    0x0000000000000b69      0x2ab DataLog/User/usbd_conf.o
- .debug_line    0x0000000000000e14      0x155 DataLog/User/usbd_desc.o
- .debug_line    0x0000000000000f69      0x66f Drivers/BSP/Components/HTS221_Driver.o
- .debug_line    0x00000000000015d8      0x3df Drivers/BSP/Components/HTS221_Driver_HL.o
- .debug_line    0x00000000000019b7      0x7a4 Drivers/BSP/Components/LPS22HB_Driver.o
- .debug_line    0x000000000000215b      0x5c9 Drivers/BSP/Components/LPS22HB_Driver_HL.o
- .debug_line    0x0000000000002724     0x12a8 Drivers/BSP/Components/LSM303AGR_ACC_driver.o
- .debug_line    0x00000000000039cc      0x492 Drivers/BSP/Components/LSM303AGR_ACC_driver_HL.o
- .debug_line    0x0000000000003e5e      0x7df Drivers/BSP/Components/LSM303AGR_MAG_driver.o
- .debug_line    0x000000000000463d      0x284 Drivers/BSP/Components/LSM303AGR_MAG_driver_HL.o
- .debug_line    0x00000000000048c1     0x1eab Drivers/BSP/Components/LSM6DSM_ACC_GYRO_driver.o
- .debug_line    0x000000000000676c      0xb5e Drivers/BSP/Components/LSM6DSM_ACC_GYRO_driver_HL.o
- .debug_line    0x00000000000072ca      0x47b Drivers/BSP/Components/STC3115_Driver.o
- .debug_line    0x0000000000007745      0x5f9 Drivers/BSP/SensorTile/SensorTile.o
- .debug_line    0x0000000000007d3e      0x798 Drivers/BSP/SensorTile/SensorTile_accelero.o
- .debug_line    0x00000000000084d6      0x207 Drivers/BSP/SensorTile/SensorTile_gg.o
- .debug_line    0x00000000000086dd      0x342 Drivers/BSP/SensorTile/SensorTile_gyro.o
- .debug_line    0x0000000000008a1f      0x273 Drivers/BSP/SensorTile/SensorTile_humidity.o
- .debug_line    0x0000000000008c92      0x30b Drivers/BSP/SensorTile/SensorTile_magneto.o
- .debug_line    0x0000000000008f9d      0x285 Drivers/BSP/SensorTile/SensorTile_pressure.o
- .debug_line    0x0000000000009222      0x29b Drivers/BSP/SensorTile/SensorTile_sd.o
- .debug_line    0x00000000000094bd      0x2b8 Drivers/BSP/SensorTile/SensorTile_temperature.o
- .debug_line    0x0000000000009775       0xd7 Drivers/CMSIS/system_stm32l4xx.o
- .debug_line    0x000000000000984c      0x2ac Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal.o
- .debug_line    0x0000000000009af8      0x3bf Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_cortex.o
- .debug_line    0x0000000000009eb7      0x245 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_gpio.o
- .debug_line    0x000000000000a0fc     0x116c Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_i2c.o
- .debug_line    0x000000000000b268      0x5ec Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pcd.o
- .debug_line    0x000000000000b854      0x16c Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pcd_ex.o
- .debug_line    0x000000000000b9c0      0x233 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pwr.o
- .debug_line    0x000000000000bbf3      0x49b Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pwr_ex.o
- .debug_line    0x000000000000c08e      0x4ca Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rcc.o
- .debug_line    0x000000000000c558      0x92a Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rcc_ex.o
- .debug_line    0x000000000000ce82      0x426 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rtc.o
- .debug_line    0x000000000000d2a8      0x9c4 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_spi.o
- .debug_line    0x000000000000dc6c     0x139d Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_tim.o
- .debug_line    0x000000000000f009      0x6b3 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_tim_ex.o
- .debug_line    0x000000000000f6bc      0x6cb Drivers/STM32L4xx_HAL_Driver/stm32l4xx_ll_usb.o
- .debug_line    0x000000000000fd87       0xec Middlewares/FatFs/diskio.o
- .debug_line    0x000000000000fe73     0x1617 Middlewares/FatFs/ff.o
- .debug_line    0x000000000001148a       0xeb Middlewares/FatFs/ff_gen_drv.o
- .debug_line    0x0000000000011575      0x104 Middlewares/FatFs/sd_diskio.o
- .debug_line    0x0000000000011679       0xa5 Middlewares/FatFs/syscall.o
- .debug_line    0x000000000001171e       0xeb Middlewares/FatFs/unicode.o
- .debug_line    0x0000000000011809      0x210 Middlewares/STM32_USBD_Library/Class/usbd_cdc.o
- .debug_line    0x0000000000011a19      0x27d Middlewares/STM32_USBD_Library/Core/usbd_core.o
- .debug_line    0x0000000000011c96      0x2d7 Middlewares/STM32_USBD_Library/Core/usbd_ctlreq.o
- .debug_line    0x0000000000011f6d      0x118 Middlewares/STM32_USBD_Library/Core/usbd_ioreq.o
+.debug_line     0x0000000000000000    0x12046
+ .debug_line    0x0000000000000000       0xd3 DataLog/SW4STM32/startup_stm32l476xx.o
+ .debug_line    0x00000000000000d3       0xd3 DataLog/User/cube_hal_l4.o
+ .debug_line    0x00000000000001a6      0x1ad DataLog/User/datalog_application.o
+ .debug_line    0x0000000000000353      0x21a DataLog/User/main.o
+ .debug_line    0x000000000000056d       0xb3 DataLog/User/stm32l4xx_hal_msp.o
+ .debug_line    0x0000000000000620      0x107 DataLog/User/stm32l4xx_it.o
+ .debug_line    0x0000000000000727      0x2d2 DataLog/User/syscalls.o
+ .debug_line    0x00000000000009f9      0x167 DataLog/User/usbd_cdc_interface.o
+ .debug_line    0x0000000000000b60      0x2aa DataLog/User/usbd_conf.o
+ .debug_line    0x0000000000000e0a      0x154 DataLog/User/usbd_desc.o
+ .debug_line    0x0000000000000f5e      0x66e Drivers/BSP/Components/HTS221_Driver.o
+ .debug_line    0x00000000000015cc      0x3de Drivers/BSP/Components/HTS221_Driver_HL.o
+ .debug_line    0x00000000000019aa      0x7a3 Drivers/BSP/Components/LPS22HB_Driver.o
+ .debug_line    0x000000000000214d      0x5c8 Drivers/BSP/Components/LPS22HB_Driver_HL.o
+ .debug_line    0x0000000000002715     0x12a7 Drivers/BSP/Components/LSM303AGR_ACC_driver.o
+ .debug_line    0x00000000000039bc      0x491 Drivers/BSP/Components/LSM303AGR_ACC_driver_HL.o
+ .debug_line    0x0000000000003e4d      0x7de Drivers/BSP/Components/LSM303AGR_MAG_driver.o
+ .debug_line    0x000000000000462b      0x283 Drivers/BSP/Components/LSM303AGR_MAG_driver_HL.o
+ .debug_line    0x00000000000048ae     0x1eaa Drivers/BSP/Components/LSM6DSM_ACC_GYRO_driver.o
+ .debug_line    0x0000000000006758      0xb5d Drivers/BSP/Components/LSM6DSM_ACC_GYRO_driver_HL.o
+ .debug_line    0x00000000000072b5      0x47a Drivers/BSP/Components/STC3115_Driver.o
+ .debug_line    0x000000000000772f      0x5f7 Drivers/BSP/SensorTile/SensorTile.o
+ .debug_line    0x0000000000007d26      0x797 Drivers/BSP/SensorTile/SensorTile_accelero.o
+ .debug_line    0x00000000000084bd      0x206 Drivers/BSP/SensorTile/SensorTile_gg.o
+ .debug_line    0x00000000000086c3      0x341 Drivers/BSP/SensorTile/SensorTile_gyro.o
+ .debug_line    0x0000000000008a04      0x272 Drivers/BSP/SensorTile/SensorTile_humidity.o
+ .debug_line    0x0000000000008c76      0x30a Drivers/BSP/SensorTile/SensorTile_magneto.o
+ .debug_line    0x0000000000008f80      0x284 Drivers/BSP/SensorTile/SensorTile_pressure.o
+ .debug_line    0x0000000000009204      0x29a Drivers/BSP/SensorTile/SensorTile_sd.o
+ .debug_line    0x000000000000949e      0x2b7 Drivers/BSP/SensorTile/SensorTile_temperature.o
+ .debug_line    0x0000000000009755       0xd6 Drivers/CMSIS/system_stm32l4xx.o
+ .debug_line    0x000000000000982b      0x2ab Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal.o
+ .debug_line    0x0000000000009ad6      0x3bd Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_cortex.o
+ .debug_line    0x0000000000009e93      0x244 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_gpio.o
+ .debug_line    0x000000000000a0d7     0x116b Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_i2c.o
+ .debug_line    0x000000000000b242      0x5eb Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pcd.o
+ .debug_line    0x000000000000b82d      0x16b Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pcd_ex.o
+ .debug_line    0x000000000000b998      0x231 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pwr.o
+ .debug_line    0x000000000000bbc9      0x499 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pwr_ex.o
+ .debug_line    0x000000000000c062      0x4c8 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rcc.o
+ .debug_line    0x000000000000c52a      0x928 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rcc_ex.o
+ .debug_line    0x000000000000ce52      0x425 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rtc.o
+ .debug_line    0x000000000000d277      0x9c3 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_spi.o
+ .debug_line    0x000000000000dc3a     0x139c Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_tim.o
+ .debug_line    0x000000000000efd6      0x6b2 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_tim_ex.o
+ .debug_line    0x000000000000f688      0x6ca Drivers/STM32L4xx_HAL_Driver/stm32l4xx_ll_usb.o
+ .debug_line    0x000000000000fd52       0xeb Middlewares/FatFs/diskio.o
+ .debug_line    0x000000000000fe3d     0x1616 Middlewares/FatFs/ff.o
+ .debug_line    0x0000000000011453       0xea Middlewares/FatFs/ff_gen_drv.o
+ .debug_line    0x000000000001153d      0x103 Middlewares/FatFs/sd_diskio.o
+ .debug_line    0x0000000000011640       0xa4 Middlewares/FatFs/syscall.o
+ .debug_line    0x00000000000116e4       0xea Middlewares/FatFs/unicode.o
+ .debug_line    0x00000000000117ce      0x20f Middlewares/STM32_USBD_Library/Class/usbd_cdc.o
+ .debug_line    0x00000000000119dd      0x27c Middlewares/STM32_USBD_Library/Core/usbd_core.o
+ .debug_line    0x0000000000011c59      0x2d6 Middlewares/STM32_USBD_Library/Core/usbd_ctlreq.o
+ .debug_line    0x0000000000011f2f      0x117 Middlewares/STM32_USBD_Library/Core/usbd_ioreq.o
 
-.debug_info     0x0000000000000000     0x95e9
- .debug_info    0x0000000000000000      0x117 DataLog/SW4STM32/startup_stm32l476xx.o
- .debug_info    0x0000000000000117       0x44 DataLog/User/cube_hal_l4.o
- .debug_info    0x000000000000015b       0xac DataLog/User/datalog_application.o
- .debug_info    0x0000000000000207       0xe0 DataLog/User/main.o
- .debug_info    0x00000000000002e7       0x44 DataLog/User/stm32l4xx_hal_msp.o
- .debug_info    0x000000000000032b       0x99 DataLog/User/stm32l4xx_it.o
- .debug_info    0x00000000000003c4      0x176 DataLog/User/syscalls.o
- .debug_info    0x000000000000053a       0xad DataLog/User/usbd_cdc_interface.o
- .debug_info    0x00000000000005e7      0x20c DataLog/User/usbd_conf.o
- .debug_info    0x00000000000007f3       0xbb DataLog/User/usbd_desc.o
- .debug_info    0x00000000000008ae      0x2c7 Drivers/BSP/Components/HTS221_Driver.o
- .debug_info    0x0000000000000b75      0x2cb Drivers/BSP/Components/HTS221_Driver_HL.o
- .debug_info    0x0000000000000e40      0x499 Drivers/BSP/Components/LPS22HB_Driver.o
- .debug_info    0x00000000000012d9      0x3db Drivers/BSP/Components/LPS22HB_Driver_HL.o
- .debug_info    0x00000000000016b4      0xd99 Drivers/BSP/Components/LSM303AGR_ACC_driver.o
- .debug_info    0x000000000000244d      0x217 Drivers/BSP/Components/LSM303AGR_ACC_driver_HL.o
- .debug_info    0x0000000000002664      0x582 Drivers/BSP/Components/LSM303AGR_MAG_driver.o
- .debug_info    0x0000000000002be6      0x174 Drivers/BSP/Components/LSM303AGR_MAG_driver_HL.o
- .debug_info    0x0000000000002d5a     0x1566 Drivers/BSP/Components/LSM6DSM_ACC_GYRO_driver.o
- .debug_info    0x00000000000042c0      0x61c Drivers/BSP/Components/LSM6DSM_ACC_GYRO_driver_HL.o
- .debug_info    0x00000000000048dc      0x23d Drivers/BSP/Components/STC3115_Driver.o
- .debug_info    0x0000000000004b19      0x3a6 Drivers/BSP/SensorTile/SensorTile.o
- .debug_info    0x0000000000004ebf      0x47b Drivers/BSP/SensorTile/SensorTile_accelero.o
- .debug_info    0x000000000000533a      0x12c Drivers/BSP/SensorTile/SensorTile_gg.o
- .debug_info    0x0000000000005466      0x1e0 Drivers/BSP/SensorTile/SensorTile_gyro.o
- .debug_info    0x0000000000005646      0x161 Drivers/BSP/SensorTile/SensorTile_humidity.o
- .debug_info    0x00000000000057a7      0x1bc Drivers/BSP/SensorTile/SensorTile_magneto.o
- .debug_info    0x0000000000005963      0x163 Drivers/BSP/SensorTile/SensorTile_pressure.o
- .debug_info    0x0000000000005ac6       0xf7 Drivers/BSP/SensorTile/SensorTile_sd.o
- .debug_info    0x0000000000005bbd      0x175 Drivers/BSP/SensorTile/SensorTile_temperature.o
- .debug_info    0x0000000000005d32       0x45 Drivers/CMSIS/system_stm32l4xx.o
- .debug_info    0x0000000000005d77      0x228 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal.o
- .debug_info    0x0000000000005f9f      0x280 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_cortex.o
- .debug_info    0x000000000000621f       0xb1 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_gpio.o
- .debug_info    0x00000000000062d0      0x544 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_i2c.o
- .debug_info    0x0000000000006814      0x271 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pcd.o
- .debug_info    0x0000000000006a85       0xbe Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pcd_ex.o
- .debug_info    0x0000000000006b43      0x1b4 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pwr.o
- .debug_info    0x0000000000006cf7      0x3c6 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pwr_ex.o
- .debug_info    0x00000000000070bd      0x293 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rcc.o
- .debug_info    0x0000000000007350      0x450 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rcc_ex.o
- .debug_info    0x00000000000077a0      0x189 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rtc.o
- .debug_info    0x0000000000007929      0x3c9 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_spi.o
- .debug_info    0x0000000000007cf2      0x7b8 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_tim.o
- .debug_info    0x00000000000084aa      0x2de Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_tim_ex.o
- .debug_info    0x0000000000008788      0x36b Drivers/STM32L4xx_HAL_Driver/stm32l4xx_ll_usb.o
- .debug_info    0x0000000000008af3       0x88 Middlewares/FatFs/diskio.o
- .debug_info    0x0000000000008b7b      0x490 Middlewares/FatFs/ff.o
- .debug_info    0x000000000000900b       0x77 Middlewares/FatFs/ff_gen_drv.o
- .debug_info    0x0000000000009082       0x77 Middlewares/FatFs/sd_diskio.o
- .debug_info    0x00000000000090f9       0x44 Middlewares/FatFs/syscall.o
- .debug_info    0x000000000000913d       0x46 Middlewares/FatFs/unicode.o
- .debug_info    0x0000000000009183      0x130 Middlewares/STM32_USBD_Library/Class/usbd_cdc.o
- .debug_info    0x00000000000092b3      0x182 Middlewares/STM32_USBD_Library/Core/usbd_core.o
- .debug_info    0x0000000000009435      0x11b Middlewares/STM32_USBD_Library/Core/usbd_ctlreq.o
- .debug_info    0x0000000000009550       0x99 Middlewares/STM32_USBD_Library/Core/usbd_ioreq.o
+.debug_info     0x0000000000000000     0x95e8
+ .debug_info    0x0000000000000000      0x115 DataLog/SW4STM32/startup_stm32l476xx.o
+ .debug_info    0x0000000000000115       0x44 DataLog/User/cube_hal_l4.o
+ .debug_info    0x0000000000000159       0xac DataLog/User/datalog_application.o
+ .debug_info    0x0000000000000205       0xe1 DataLog/User/main.o
+ .debug_info    0x00000000000002e6       0x44 DataLog/User/stm32l4xx_hal_msp.o
+ .debug_info    0x000000000000032a       0x99 DataLog/User/stm32l4xx_it.o
+ .debug_info    0x00000000000003c3      0x176 DataLog/User/syscalls.o
+ .debug_info    0x0000000000000539       0xad DataLog/User/usbd_cdc_interface.o
+ .debug_info    0x00000000000005e6      0x20c DataLog/User/usbd_conf.o
+ .debug_info    0x00000000000007f2       0xbb DataLog/User/usbd_desc.o
+ .debug_info    0x00000000000008ad      0x2c7 Drivers/BSP/Components/HTS221_Driver.o
+ .debug_info    0x0000000000000b74      0x2cb Drivers/BSP/Components/HTS221_Driver_HL.o
+ .debug_info    0x0000000000000e3f      0x499 Drivers/BSP/Components/LPS22HB_Driver.o
+ .debug_info    0x00000000000012d8      0x3db Drivers/BSP/Components/LPS22HB_Driver_HL.o
+ .debug_info    0x00000000000016b3      0xd99 Drivers/BSP/Components/LSM303AGR_ACC_driver.o
+ .debug_info    0x000000000000244c      0x217 Drivers/BSP/Components/LSM303AGR_ACC_driver_HL.o
+ .debug_info    0x0000000000002663      0x582 Drivers/BSP/Components/LSM303AGR_MAG_driver.o
+ .debug_info    0x0000000000002be5      0x174 Drivers/BSP/Components/LSM303AGR_MAG_driver_HL.o
+ .debug_info    0x0000000000002d59     0x1566 Drivers/BSP/Components/LSM6DSM_ACC_GYRO_driver.o
+ .debug_info    0x00000000000042bf      0x61c Drivers/BSP/Components/LSM6DSM_ACC_GYRO_driver_HL.o
+ .debug_info    0x00000000000048db      0x23d Drivers/BSP/Components/STC3115_Driver.o
+ .debug_info    0x0000000000004b18      0x3a6 Drivers/BSP/SensorTile/SensorTile.o
+ .debug_info    0x0000000000004ebe      0x47b Drivers/BSP/SensorTile/SensorTile_accelero.o
+ .debug_info    0x0000000000005339      0x12c Drivers/BSP/SensorTile/SensorTile_gg.o
+ .debug_info    0x0000000000005465      0x1e0 Drivers/BSP/SensorTile/SensorTile_gyro.o
+ .debug_info    0x0000000000005645      0x161 Drivers/BSP/SensorTile/SensorTile_humidity.o
+ .debug_info    0x00000000000057a6      0x1bc Drivers/BSP/SensorTile/SensorTile_magneto.o
+ .debug_info    0x0000000000005962      0x163 Drivers/BSP/SensorTile/SensorTile_pressure.o
+ .debug_info    0x0000000000005ac5       0xf7 Drivers/BSP/SensorTile/SensorTile_sd.o
+ .debug_info    0x0000000000005bbc      0x175 Drivers/BSP/SensorTile/SensorTile_temperature.o
+ .debug_info    0x0000000000005d31       0x45 Drivers/CMSIS/system_stm32l4xx.o
+ .debug_info    0x0000000000005d76      0x228 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal.o
+ .debug_info    0x0000000000005f9e      0x280 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_cortex.o
+ .debug_info    0x000000000000621e       0xb1 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_gpio.o
+ .debug_info    0x00000000000062cf      0x544 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_i2c.o
+ .debug_info    0x0000000000006813      0x271 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pcd.o
+ .debug_info    0x0000000000006a84       0xbe Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pcd_ex.o
+ .debug_info    0x0000000000006b42      0x1b4 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pwr.o
+ .debug_info    0x0000000000006cf6      0x3c6 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pwr_ex.o
+ .debug_info    0x00000000000070bc      0x293 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rcc.o
+ .debug_info    0x000000000000734f      0x450 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rcc_ex.o
+ .debug_info    0x000000000000779f      0x189 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rtc.o
+ .debug_info    0x0000000000007928      0x3c9 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_spi.o
+ .debug_info    0x0000000000007cf1      0x7b8 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_tim.o
+ .debug_info    0x00000000000084a9      0x2de Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_tim_ex.o
+ .debug_info    0x0000000000008787      0x36b Drivers/STM32L4xx_HAL_Driver/stm32l4xx_ll_usb.o
+ .debug_info    0x0000000000008af2       0x88 Middlewares/FatFs/diskio.o
+ .debug_info    0x0000000000008b7a      0x490 Middlewares/FatFs/ff.o
+ .debug_info    0x000000000000900a       0x77 Middlewares/FatFs/ff_gen_drv.o
+ .debug_info    0x0000000000009081       0x77 Middlewares/FatFs/sd_diskio.o
+ .debug_info    0x00000000000090f8       0x44 Middlewares/FatFs/syscall.o
+ .debug_info    0x000000000000913c       0x46 Middlewares/FatFs/unicode.o
+ .debug_info    0x0000000000009182      0x130 Middlewares/STM32_USBD_Library/Class/usbd_cdc.o
+ .debug_info    0x00000000000092b2      0x182 Middlewares/STM32_USBD_Library/Core/usbd_core.o
+ .debug_info    0x0000000000009434      0x11b Middlewares/STM32_USBD_Library/Core/usbd_ctlreq.o
+ .debug_info    0x000000000000954f       0x99 Middlewares/STM32_USBD_Library/Core/usbd_ioreq.o
 
 .debug_abbrev   0x0000000000000000     0x14c6
  .debug_abbrev  0x0000000000000000       0x12 DataLog/SW4STM32/startup_stm32l476xx.o
@@ -6218,116 +6218,116 @@ OUTPUT(STM32L4xx-SensorTile.elf elf32-littlearm)
  .debug_ranges  0x0000000000003d80       0x78 Middlewares/STM32_USBD_Library/Core/usbd_ctlreq.o
  .debug_ranges  0x0000000000003df8       0x40 Middlewares/STM32_USBD_Library/Core/usbd_ioreq.o
 
-.debug_str      0x0000000000000000     0xc7d1
- .debug_str     0x0000000000000000      0x13d DataLog/User/cube_hal_l4.o
- .debug_str     0x000000000000013d      0x104 DataLog/User/datalog_application.o
-                                        0x1b7 (size before relaxing)
- .debug_str     0x0000000000000241       0xec DataLog/User/main.o
-                                        0x1ad (size before relaxing)
- .debug_str     0x000000000000032d       0x91 DataLog/User/stm32l4xx_hal_msp.o
-                                        0x144 (size before relaxing)
- .debug_str     0x00000000000003be       0xdc DataLog/User/stm32l4xx_it.o
-                                        0x18f (size before relaxing)
- .debug_str     0x000000000000049a       0xd9 DataLog/User/syscalls.o
-                                        0x1bb (size before relaxing)
- .debug_str     0x0000000000000573       0xe5 DataLog/User/usbd_cdc_interface.o
-                                        0x1a6 (size before relaxing)
- .debug_str     0x0000000000000658      0x2a9 DataLog/User/usbd_conf.o
-                                        0x35c (size before relaxing)
- .debug_str     0x0000000000000901      0x154 DataLog/User/usbd_desc.o
-                                        0x207 (size before relaxing)
- .debug_str     0x0000000000000a55      0x381 Drivers/BSP/Components/HTS221_Driver.o
-                                        0x434 (size before relaxing)
- .debug_str     0x0000000000000dd6      0x32e Drivers/BSP/Components/HTS221_Driver_HL.o
-                                        0x3e1 (size before relaxing)
- .debug_str     0x0000000000001104      0x6de Drivers/BSP/Components/LPS22HB_Driver.o
-                                        0x791 (size before relaxing)
- .debug_str     0x00000000000017e2      0x527 Drivers/BSP/Components/LPS22HB_Driver_HL.o
-                                        0x5da (size before relaxing)
- .debug_str     0x0000000000001d09     0x152a Drivers/BSP/Components/LSM303AGR_ACC_driver.o
-                                       0x15dd (size before relaxing)
- .debug_str     0x0000000000003233      0x356 Drivers/BSP/Components/LSM303AGR_ACC_driver_HL.o
-                                        0x409 (size before relaxing)
- .debug_str     0x0000000000003589      0x74b Drivers/BSP/Components/LSM303AGR_MAG_driver.o
-                                        0x7fe (size before relaxing)
- .debug_str     0x0000000000003cd4      0x21c Drivers/BSP/Components/LSM303AGR_MAG_driver_HL.o
-                                        0x2cf (size before relaxing)
- .debug_str     0x0000000000003ef0     0x253c Drivers/BSP/Components/LSM6DSM_ACC_GYRO_driver.o
-                                       0x25ef (size before relaxing)
- .debug_str     0x000000000000642c      0x9ac Drivers/BSP/Components/LSM6DSM_ACC_GYRO_driver_HL.o
-                                        0xa5f (size before relaxing)
- .debug_str     0x0000000000006dd8      0x26d Drivers/BSP/Components/STC3115_Driver.o
-                                        0x320 (size before relaxing)
- .debug_str     0x0000000000007045      0x354 Drivers/BSP/SensorTile/SensorTile.o
-                                        0x41a (size before relaxing)
- .debug_str     0x0000000000007399      0x894 Drivers/BSP/SensorTile/SensorTile_accelero.o
-                                        0x947 (size before relaxing)
- .debug_str     0x0000000000007c2d      0x149 Drivers/BSP/SensorTile/SensorTile_gg.o
-                                        0x1fc (size before relaxing)
- .debug_str     0x0000000000007d76      0x254 Drivers/BSP/SensorTile/SensorTile_gyro.o
-                                        0x307 (size before relaxing)
- .debug_str     0x0000000000007fca      0x208 Drivers/BSP/SensorTile/SensorTile_humidity.o
-                                        0x2bb (size before relaxing)
- .debug_str     0x00000000000081d2      0x26c Drivers/BSP/SensorTile/SensorTile_magneto.o
-                                        0x31f (size before relaxing)
- .debug_str     0x000000000000843e      0x20b Drivers/BSP/SensorTile/SensorTile_pressure.o
-                                        0x2be (size before relaxing)
- .debug_str     0x0000000000008649      0x119 Drivers/BSP/SensorTile/SensorTile_sd.o
-                                        0x1cc (size before relaxing)
- .debug_str     0x0000000000008762      0x25f Drivers/BSP/SensorTile/SensorTile_temperature.o
-                                        0x312 (size before relaxing)
- .debug_str     0x00000000000089c1       0x8f Drivers/CMSIS/system_stm32l4xx.o
-                                        0x142 (size before relaxing)
- .debug_str     0x0000000000008a50      0x312 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal.o
-                                        0x3c5 (size before relaxing)
- .debug_str     0x0000000000008d62      0x20d Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_cortex.o
-                                        0x394 (size before relaxing)
- .debug_str     0x0000000000008f6f       0xe2 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_gpio.o
+.debug_str      0x0000000000000000     0xc79a
+ .debug_str     0x0000000000000000      0x13c DataLog/User/cube_hal_l4.o
+ .debug_str     0x000000000000013c      0x103 DataLog/User/datalog_application.o
+                                        0x1b6 (size before relaxing)
+ .debug_str     0x000000000000023f       0xeb DataLog/User/main.o
                                         0x1ac (size before relaxing)
- .debug_str     0x0000000000009051      0x6e5 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_i2c.o
-                                        0x798 (size before relaxing)
- .debug_str     0x0000000000009736      0x1e2 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pcd.o
-                                        0x3d8 (size before relaxing)
- .debug_str     0x0000000000009918      0x131 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pcd_ex.o
-                                        0x1e4 (size before relaxing)
- .debug_str     0x0000000000009a49      0x1d9 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pwr.o
-                                        0x292 (size before relaxing)
- .debug_str     0x0000000000009c22      0x471 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pwr_ex.o
-                                        0x536 (size before relaxing)
- .debug_str     0x000000000000a093      0x190 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rcc.o
-                                        0x249 (size before relaxing)
- .debug_str     0x000000000000a223      0x263 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rcc_ex.o
-                                        0x31d (size before relaxing)
- .debug_str     0x000000000000a486      0x1b4 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rtc.o
-                                        0x289 (size before relaxing)
- .debug_str     0x000000000000a63a      0x49a Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_spi.o
-                                        0x54d (size before relaxing)
- .debug_str     0x000000000000aad4      0x985 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_tim.o
-                                        0xa56 (size before relaxing)
- .debug_str     0x000000000000b459      0x474 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_tim_ex.o
-                                        0x527 (size before relaxing)
- .debug_str     0x000000000000b8cd      0x3bf Drivers/STM32L4xx_HAL_Driver/stm32l4xx_ll_usb.o
-                                        0x472 (size before relaxing)
- .debug_str     0x000000000000bc8c       0xa1 Middlewares/FatFs/diskio.o
-                                        0x154 (size before relaxing)
- .debug_str     0x000000000000bd2d      0x2a0 Middlewares/FatFs/ff.o
-                                        0x353 (size before relaxing)
- .debug_str     0x000000000000bfcd       0xc5 Middlewares/FatFs/ff_gen_drv.o
-                                        0x178 (size before relaxing)
- .debug_str     0x000000000000c092       0x96 Middlewares/FatFs/sd_diskio.o
-                                        0x149 (size before relaxing)
- .debug_str     0x000000000000c128       0x78 Middlewares/FatFs/syscall.o
-                                        0x12b (size before relaxing)
- .debug_str     0x000000000000c1a0       0x78 Middlewares/FatFs/unicode.o
-                                        0x12b (size before relaxing)
- .debug_str     0x000000000000c218      0x1b6 Middlewares/STM32_USBD_Library/Class/usbd_cdc.o
-                                        0x269 (size before relaxing)
- .debug_str     0x000000000000c3ce      0x1c6 Middlewares/STM32_USBD_Library/Core/usbd_core.o
-                                        0x279 (size before relaxing)
- .debug_str     0x000000000000c594      0x149 Middlewares/STM32_USBD_Library/Core/usbd_ctlreq.o
-                                        0x1fc (size before relaxing)
- .debug_str     0x000000000000c6dd       0xf4 Middlewares/STM32_USBD_Library/Core/usbd_ioreq.o
-                                        0x1a7 (size before relaxing)
+ .debug_str     0x000000000000032a       0x90 DataLog/User/stm32l4xx_hal_msp.o
+                                        0x143 (size before relaxing)
+ .debug_str     0x00000000000003ba       0xdb DataLog/User/stm32l4xx_it.o
+                                        0x18e (size before relaxing)
+ .debug_str     0x0000000000000495       0xd8 DataLog/User/syscalls.o
+                                        0x1ba (size before relaxing)
+ .debug_str     0x000000000000056d       0xe4 DataLog/User/usbd_cdc_interface.o
+                                        0x1a5 (size before relaxing)
+ .debug_str     0x0000000000000651      0x2a8 DataLog/User/usbd_conf.o
+                                        0x35b (size before relaxing)
+ .debug_str     0x00000000000008f9      0x153 DataLog/User/usbd_desc.o
+                                        0x206 (size before relaxing)
+ .debug_str     0x0000000000000a4c      0x380 Drivers/BSP/Components/HTS221_Driver.o
+                                        0x433 (size before relaxing)
+ .debug_str     0x0000000000000dcc      0x32d Drivers/BSP/Components/HTS221_Driver_HL.o
+                                        0x3e0 (size before relaxing)
+ .debug_str     0x00000000000010f9      0x6dd Drivers/BSP/Components/LPS22HB_Driver.o
+                                        0x790 (size before relaxing)
+ .debug_str     0x00000000000017d6      0x526 Drivers/BSP/Components/LPS22HB_Driver_HL.o
+                                        0x5d9 (size before relaxing)
+ .debug_str     0x0000000000001cfc     0x1529 Drivers/BSP/Components/LSM303AGR_ACC_driver.o
+                                       0x15dc (size before relaxing)
+ .debug_str     0x0000000000003225      0x355 Drivers/BSP/Components/LSM303AGR_ACC_driver_HL.o
+                                        0x408 (size before relaxing)
+ .debug_str     0x000000000000357a      0x74a Drivers/BSP/Components/LSM303AGR_MAG_driver.o
+                                        0x7fd (size before relaxing)
+ .debug_str     0x0000000000003cc4      0x21b Drivers/BSP/Components/LSM303AGR_MAG_driver_HL.o
+                                        0x2ce (size before relaxing)
+ .debug_str     0x0000000000003edf     0x253b Drivers/BSP/Components/LSM6DSM_ACC_GYRO_driver.o
+                                       0x25ee (size before relaxing)
+ .debug_str     0x000000000000641a      0x9ab Drivers/BSP/Components/LSM6DSM_ACC_GYRO_driver_HL.o
+                                        0xa5e (size before relaxing)
+ .debug_str     0x0000000000006dc5      0x26c Drivers/BSP/Components/STC3115_Driver.o
+                                        0x31f (size before relaxing)
+ .debug_str     0x0000000000007031      0x353 Drivers/BSP/SensorTile/SensorTile.o
+                                        0x419 (size before relaxing)
+ .debug_str     0x0000000000007384      0x893 Drivers/BSP/SensorTile/SensorTile_accelero.o
+                                        0x946 (size before relaxing)
+ .debug_str     0x0000000000007c17      0x148 Drivers/BSP/SensorTile/SensorTile_gg.o
+                                        0x1fb (size before relaxing)
+ .debug_str     0x0000000000007d5f      0x253 Drivers/BSP/SensorTile/SensorTile_gyro.o
+                                        0x306 (size before relaxing)
+ .debug_str     0x0000000000007fb2      0x207 Drivers/BSP/SensorTile/SensorTile_humidity.o
+                                        0x2ba (size before relaxing)
+ .debug_str     0x00000000000081b9      0x26b Drivers/BSP/SensorTile/SensorTile_magneto.o
+                                        0x31e (size before relaxing)
+ .debug_str     0x0000000000008424      0x20a Drivers/BSP/SensorTile/SensorTile_pressure.o
+                                        0x2bd (size before relaxing)
+ .debug_str     0x000000000000862e      0x118 Drivers/BSP/SensorTile/SensorTile_sd.o
+                                        0x1cb (size before relaxing)
+ .debug_str     0x0000000000008746      0x25e Drivers/BSP/SensorTile/SensorTile_temperature.o
+                                        0x311 (size before relaxing)
+ .debug_str     0x00000000000089a4       0x8e Drivers/CMSIS/system_stm32l4xx.o
+                                        0x141 (size before relaxing)
+ .debug_str     0x0000000000008a32      0x311 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal.o
+                                        0x3c4 (size before relaxing)
+ .debug_str     0x0000000000008d43      0x20c Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_cortex.o
+                                        0x393 (size before relaxing)
+ .debug_str     0x0000000000008f4f       0xe1 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_gpio.o
+                                        0x1ab (size before relaxing)
+ .debug_str     0x0000000000009030      0x6e4 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_i2c.o
+                                        0x797 (size before relaxing)
+ .debug_str     0x0000000000009714      0x1e1 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pcd.o
+                                        0x3d7 (size before relaxing)
+ .debug_str     0x00000000000098f5      0x130 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pcd_ex.o
+                                        0x1e3 (size before relaxing)
+ .debug_str     0x0000000000009a25      0x1d8 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pwr.o
+                                        0x291 (size before relaxing)
+ .debug_str     0x0000000000009bfd      0x470 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_pwr_ex.o
+                                        0x535 (size before relaxing)
+ .debug_str     0x000000000000a06d      0x18f Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rcc.o
+                                        0x248 (size before relaxing)
+ .debug_str     0x000000000000a1fc      0x262 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rcc_ex.o
+                                        0x31c (size before relaxing)
+ .debug_str     0x000000000000a45e      0x1b3 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_rtc.o
+                                        0x288 (size before relaxing)
+ .debug_str     0x000000000000a611      0x499 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_spi.o
+                                        0x54c (size before relaxing)
+ .debug_str     0x000000000000aaaa      0x984 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_tim.o
+                                        0xa55 (size before relaxing)
+ .debug_str     0x000000000000b42e      0x473 Drivers/STM32L4xx_HAL_Driver/stm32l4xx_hal_tim_ex.o
+                                        0x526 (size before relaxing)
+ .debug_str     0x000000000000b8a1      0x3be Drivers/STM32L4xx_HAL_Driver/stm32l4xx_ll_usb.o
+                                        0x471 (size before relaxing)
+ .debug_str     0x000000000000bc5f       0xa0 Middlewares/FatFs/diskio.o
+                                        0x153 (size before relaxing)
+ .debug_str     0x000000000000bcff      0x29f Middlewares/FatFs/ff.o
+                                        0x352 (size before relaxing)
+ .debug_str     0x000000000000bf9e       0xc4 Middlewares/FatFs/ff_gen_drv.o
+                                        0x177 (size before relaxing)
+ .debug_str     0x000000000000c062       0x95 Middlewares/FatFs/sd_diskio.o
+                                        0x148 (size before relaxing)
+ .debug_str     0x000000000000c0f7       0x77 Middlewares/FatFs/syscall.o
+                                        0x12a (size before relaxing)
+ .debug_str     0x000000000000c16e       0x77 Middlewares/FatFs/unicode.o
+                                        0x12a (size before relaxing)
+ .debug_str     0x000000000000c1e5      0x1b5 Middlewares/STM32_USBD_Library/Class/usbd_cdc.o
+                                        0x268 (size before relaxing)
+ .debug_str     0x000000000000c39a      0x1c5 Middlewares/STM32_USBD_Library/Core/usbd_core.o
+                                        0x278 (size before relaxing)
+ .debug_str     0x000000000000c55f      0x148 Middlewares/STM32_USBD_Library/Core/usbd_ctlreq.o
+                                        0x1fb (size before relaxing)
+ .debug_str     0x000000000000c6a7       0xf3 Middlewares/STM32_USBD_Library/Core/usbd_ioreq.o
+                                        0x1a6 (size before relaxing)
 
 .comment        0x0000000000000000       0x7f
  .comment       0x0000000000000000       0x7f DataLog/User/cube_hal_l4.o

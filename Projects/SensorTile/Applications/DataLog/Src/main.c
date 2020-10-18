@@ -186,6 +186,8 @@ int main( void )
       
       Gyro_Sensor_Handler( LSM6DSM_G_0_handle );
       
+      //BSP_LED_On(LED1);
+
       //Magneto_Sensor_Handler( LSM303AGR_M_0_handle );
       
       //Pressure_Sensor_Handler( LPS22HB_P_0_handle );
