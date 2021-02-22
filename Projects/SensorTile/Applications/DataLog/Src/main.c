@@ -170,16 +170,58 @@ int main( void )
   enableAllSensors();
   
   BSP_ACCELERO_Set_FS_Value( LSM6DSM_X_0_handle , 104.0f);
+
+  /* MOTION DATA VARIABLE DECLARATION -----------------------------------------------*/
+  	  struct Motion Stand;
+  	  struct Motion Normal;
+  	  struct Motion Ascent;
+  	  struct Motion Descent;
+  	  struct Motion New;
+
+  //------------------------------------------------------------------------------------------------------------------------------------
+
+       //STAND STILL MOTION DATA ACQUISITION
+       for(int r = 0; r < 4000; r++)
+       {
+    	  waitToProceed(&msTickPrev,DATA_PERIOD_MS);
+     	  Stand.acceleero_vals[r]; // = what is returned by accelero func
+     	  Stand.gyro_vals[r]; // = what is returned by gyro func
+       }
+
+       waitToProceed(&msTickPrev,10000);
+
+       //NORMAL WALK MOTION DATA ACQUISITION
+       for(int r = 0; r < 4000; r++)
+       {
+    	  waitToProceed(&msTickPrev,DATA_PERIOD_MS);
+     	  Normal.acceleero_vals[r]; // = what is returned by accelero func
+     	  Normal.gyro_vals[r]; // = what is returned by gyro func
+       }
+
+       waitToProceed(&msTickPrev,10000);
+
+       //STAIR ASCENT MOTION DATA ACQUISITION
+       for(int r = 0; r < 4000; r++)
+       {
+    	  waitToProceed(&msTickPrev,DATA_PERIOD_MS);
+     	  Ascent.acceleero_vals[r]; // = what is returned by accelero func
+     	  Ascent.gyro_vals[r]; // = what is returned by gyro func
+       }
+
+       waitToProceed(&msTickPrev,10000);
+
+       //STAIR DESCENT MOTION DATA ACQUISITION
+       for(int r = 0; r < 4000; r++)
+       {
+    	  waitToProceed(&msTickPrev,DATA_PERIOD_MS);
+     	  Descent.acceleero_vals[r]; // = what is returned by accelero func
+     	  Descent.gyro_vals[r]; // = what is returned by gyro func
+       }
+
+ //------------------------------------------------------------------------------------------------------------------------------------
+
   while (1)
   {
-	  /* MOTION DATA VARIABLE DECLARATION -----------------------------------------------*/
-	  struct Motion Stand;
-	  struct Motion Normal;
-	  struct Motion Ascent;
-	  struct Motion Descent;
-	  struct Motion New;
-
-
     /* Get sysTick value and check if it's time to execute the task */
     msTick = HAL_GetTick();
     if(msTick % DATA_PERIOD_MS == 0 && msTickPrev != msTick)
@@ -195,39 +237,6 @@ int main( void )
         BSP_LED_On(LEDSWD);
       }
 #endif
-
- //------------------------------------------------------------------------------------------------------------------------------------
-
-      //STAND STILL MOTION DATA ACQUISITION
-      for(int r = 0; r < 4000; r++)
-      {
-    	  Stand.acceleero_vals[r]; // = what is returned by accelero func
-    	  Stand.gyro_vals[r]; // = what is returned by gyro func
-      }
-
-      //NORMAL WALK MOTION DATA ACQUISITION
-      for(int r = 0; r < 4000; r++)
-      {
-    	  Normal.acceleero_vals[r]; // = what is returned by accelero func
-    	  Normal.gyro_vals[r]; // = what is returned by gyro func
-      }
-      //STAIR ASCENT MOTION DATA ACQUISITION
-      for(int r = 0; r < 4000; r++)
-      {
-    	  Ascent.acceleero_vals[r]; // = what is returned by accelero func
-    	  Ascent.gyro_vals[r]; // = what is returned by gyro func
-
-      }
-
-      //STAIR DESCENT MOTION DATA ACQUISITION
-      for(int r = 0; r < 4000; r++)
-      {
-    	  Descent.acceleero_vals[r]; // = what is returned by accelero func
-    	  Descent.gyro_vals[r]; // = what is returned by gyro func
-
-      }
-
-//------------------------------------------------------------------------------------------------------------------------------------
 
 
       RTC_Handler( &RtcHandle);

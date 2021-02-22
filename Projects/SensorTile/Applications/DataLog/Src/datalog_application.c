@@ -357,6 +357,16 @@ void floatToInt( float in, int32_t *out_int, int32_t *out_dec, int32_t dec_prec 
   *out_dec = (int32_t)trunc(in * pow(10, dec_prec));
 }
 
+void waitToProceed(uint32_t *msTickPrev, uint32_t data_period)
+{
+	uint32_t msTick = HAL_GetTick();
+	while(!(msTick % data_period == 0 && *msTickPrev != msTick))
+	{
+		msTick = HAL_GetTick();
+	}
+	*msTickPrev = msTick;
+}
+
 /**
   * @}
   */

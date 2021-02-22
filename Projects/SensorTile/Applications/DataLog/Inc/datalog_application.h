@@ -46,6 +46,7 @@ void RTC_Handler( RTC_HandleTypeDef *RtcHandle);
 void Accelero_Sensor_Handler( void *handle, uint32_t msTick, uint32_t *msTickStateChange, uint8_t *state );
 void Gyro_Sensor_Handler( void *handle );
 void floatToInt( float in, int32_t *out_int, int32_t *out_dec, int32_t dec_prec );
+void waitToProceed(uint32_t *msTickPrev, uint32_t data_period);
 void Gas_Gauge_Handler( void *handle );
 
 
