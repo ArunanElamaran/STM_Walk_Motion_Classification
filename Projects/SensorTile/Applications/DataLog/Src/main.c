@@ -199,20 +199,20 @@ int main( void )
  //------------------------------------------------------------------------------------------------------------------------------------
 
       //STAND STILL MOTION DATA ACQUISITION
-      for(int r = 0; r <= 4000; r++)
+      for(int r = 0; r < 4000; r++)
       {
     	  Stand.acceleero_vals[r]; // = what is returned by accelero func
     	  Stand.gyro_vals[r]; // = what is returned by gyro func
       }
 
       //NORMAL WALK MOTION DATA ACQUISITION
-      for(int r = 0; r <= 4000; r++)
+      for(int r = 0; r < 4000; r++)
       {
     	  Normal.acceleero_vals[r]; // = what is returned by accelero func
     	  Normal.gyro_vals[r]; // = what is returned by gyro func
       }
       //STAIR ASCENT MOTION DATA ACQUISITION
-      for(int r = 0; r <= 4000; r++)
+      for(int r = 0; r < 4000; r++)
       {
     	  Ascent.acceleero_vals[r]; // = what is returned by accelero func
     	  Ascent.gyro_vals[r]; // = what is returned by gyro func
@@ -220,7 +220,7 @@ int main( void )
       }
 
       //STAIR DESCENT MOTION DATA ACQUISITION
-      for(int r = 0; r <= 4000; r++)
+      for(int r = 0; r < 4000; r++)
       {
     	  Descent.acceleero_vals[r]; // = what is returned by accelero func
     	  Descent.gyro_vals[r]; // = what is returned by gyro func
