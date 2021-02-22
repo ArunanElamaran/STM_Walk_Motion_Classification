@@ -45,10 +45,6 @@ void DATALOG_SD_NewLine(void);
 void RTC_Handler( RTC_HandleTypeDef *RtcHandle);
 void Accelero_Sensor_Handler( void *handle, uint32_t msTick, uint32_t *msTickStateChange, uint8_t *state );
 void Gyro_Sensor_Handler( void *handle );
-void Magneto_Sensor_Handler( void *handle );
-void Temperature_Sensor_Handler( void *handle );
-void Pressure_Sensor_Handler( void *handle );
-void Humidity_Sensor_Handler( void *handle );
 void floatToInt( float in, int32_t *out_int, int32_t *out_dec, int32_t dec_prec );
 void Gas_Gauge_Handler( void *handle );
 

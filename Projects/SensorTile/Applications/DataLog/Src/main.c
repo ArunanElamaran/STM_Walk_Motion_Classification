@@ -188,25 +188,6 @@ int main( void )
       
       //BSP_LED_On(LED1);
 
-      //Magneto_Sensor_Handler( LSM303AGR_M_0_handle );
-      
-      //Pressure_Sensor_Handler( LPS22HB_P_0_handle );
-      
-      /*if(!no_T_HTS221)
-      {
-        Temperature_Sensor_Handler( HTS221_T_0_handle );
-      }*/
-
-      /*if(!no_H_HTS221)
-      {
-        Humidity_Sensor_Handler( HTS221_H_0_handle );
-      }*/
-      
-      /*if(!no_GG)
-      {
-        Gas_Gauge_Handler(GG_handle);
-      }*/
-
       if(SD_Log_Enabled) /* Write data to the file on the SDCard */
       {
         DATALOG_SD_NewLine();
