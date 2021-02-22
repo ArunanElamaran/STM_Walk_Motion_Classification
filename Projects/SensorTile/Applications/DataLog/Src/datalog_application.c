@@ -137,28 +137,6 @@ void DATALOG_SD_NewLine(void)
 * @param  None
 * @retval None
 */
-/*void RTC_Handler( RTC_HandleTypeDef *RtcHandle )
-{
-  uint8_t subSec = 0;
-  RTC_DateTypeDef sdatestructureget;
-  RTC_TimeTypeDef stimestructure;
-  
-  HAL_RTC_GetTime( RtcHandle, &stimestructure, FORMAT_BIN );
-  HAL_RTC_GetDate( RtcHandle, &sdatestructureget, FORMAT_BIN );
-  subSec = (((((( int )RTC_SYNCH_PREDIV) - (( int )stimestructure.SubSeconds)) * 100) / ( RTC_SYNCH_PREDIV + 1 )) & 0xff );
-  
-  if(SendOverUSB) // Write data on the USB
-  {
-    sprintf( dataOut, "\nTimeStamp: %02d:%02d:%02d.%02d", stimestructure.Hours, stimestructure.Minutes, stimestructure.Seconds, subSec );
-    CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
-  }
-  else if(SD_Log_Enabled) // Write data to the file on the SDCard
-  {
-    uint8_t size;
-    size = sprintf( dataOut, "%02d:%02d:%02d.%02d\t", stimestructure.Hours, stimestructure.Minutes, stimestructure.Seconds, subSec);    
-    res = f_write(&MyFile, dataOut, size, (void *)&byteswritten);
-  }
-}*/
 
 void RTC_Handler( RTC_HandleTypeDef *RtcHandle)
 {
