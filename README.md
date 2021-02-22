@@ -17,3 +17,5 @@ Modern medicine has drastically increased the average lifespan of humans. At the
 We developed a gait classification system driven by machine learning to potentially detect gait-impeding medical conditions, including arthritis, dementia, kidney stones, and neurological impairments.
 
 [Draft](https://docs.google.com/document/d/1rxYGlyEkDnYLEWZdulQaJeqwKm3KmoQd8krIPucXlYc/edit?usp=sharing)
+
+Creating this final result required much testing using various other resources such as MATLAB and Xcode to analyze the different motions in graphical form and test the strength of our decision tree. We display this work in our Development Repository linked [here](https://github.com/rtabrizi/STMotionExploration).
