@@ -180,6 +180,10 @@ int main( void )
 
   //------------------------------------------------------------------------------------------------------------------------------------
 
+  	  waitToProceed(&msTickPrev,10000);
+      //lights saying to start motion
+      waitToProceed(&msTickPrev,2000); //stand still during this time
+
        //STAND STILL MOTION DATA ACQUISITION
        for(int r = 0; r < 4000; r++)
        {
@@ -189,6 +193,8 @@ int main( void )
        }
 
        waitToProceed(&msTickPrev,10000);
+       //lights saying to start motion
+       waitToProceed(&msTickPrev,2000); //start normally walking during this time
 
        //NORMAL WALK MOTION DATA ACQUISITION
        for(int r = 0; r < 4000; r++)
@@ -199,6 +205,9 @@ int main( void )
        }
 
        waitToProceed(&msTickPrev,10000);
+       //lights saying to start motion
+       waitToProceed(&msTickPrev,2000); // start stair ascent during this time
+
 
        //STAIR ASCENT MOTION DATA ACQUISITION
        for(int r = 0; r < 4000; r++)
@@ -209,6 +218,9 @@ int main( void )
        }
 
        waitToProceed(&msTickPrev,10000);
+       //lights saying to start motion
+       waitToProceed(&msTickPrev,2000);//start stair descent during this time
+
 
        //STAIR DESCENT MOTION DATA ACQUISITION
        for(int r = 0; r < 4000; r++)
@@ -241,7 +253,7 @@ int main( void )
 
       RTC_Handler( &RtcHandle);
       
-      Accelero_Sensor_Handler( LSM6DSM_X_0_handle, msTick, &msTickStateChange, &state );
+      Accelero_Sensor_Handler( LSM6DSM_X_0_handle);
       
       Gyro_Sensor_Handler( LSM6DSM_G_0_handle );
       

@@ -155,18 +155,11 @@ void RTC_Handler( RTC_HandleTypeDef *RtcHandle)
 * @param  handle the device handle
 * @retval None
 */
-void Accelero_Sensor_Handler( void *handle, uint32_t msTick, uint32_t *msTickStateChange, uint8_t *state )
+double *Accelero_Sensor_Handler( void *handle)
 {
-  
-  uint8_t who_am_i;
-  float odr;
-  float fullScale;
-  float x, y, z;
   uint8_t id;
   SensorAxes_t acceleration;
   uint8_t status;
-  int32_t d1, d2, d3, d4, d5, d6;
-  
 
   BSP_ACCELERO_Get_Instance( handle, &id );
   
@@ -180,65 +173,13 @@ void Accelero_Sensor_Handler( void *handle, uint32_t msTick, uint32_t *msTickSta
       acceleration.AXIS_Y = 0;
       acceleration.AXIS_Z = 0;
     }
-    
-    if(SendOverUSB) /* Write data on the USB */
-    {
-    	//convert the int32 data type into float data type to enable floating point computation
-    	//Store float variable in respective variables
-    	//x = (float) acceleration.AXIS_X;
-    	//y = (float) acceleration.AXIS_Y;
-    	//z = (float) acceleration.AXIS_Z;
 
-    	sprintf( dataOut, "%d, %d, %i",
-    			acceleration.AXIS_X, acceleration.AXIS_Y, (int) acceleration.AXIS_Z/10);
-
-    	CDC_Fill_Buffer((uint8_t *)dataOut, strlen(dataOut));
-
-      if ( verbose == 1 )
-      {
-        if ( BSP_ACCELERO_Get_WhoAmI( handle, &who_am_i ) == COMPONENT_ERROR )
-        {
-          sprintf( dataOut, "WHO AM I address[%d]: ERROR\n", id );
-        }
-        else
-        {
-          sprintf( dataOut, "WHO AM I address[%d]: 0x%02X\n", id, who_am_i );
-        }
-        
-        CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
-        
-        if ( BSP_ACCELERO_Get_ODR( handle, &odr ) == COMPONENT_ERROR )
-        {
-          sprintf( dataOut, "ODR[%d]: ERROR\n", id );
-        }
-        else
-        {
-          floatToInt( odr, &d1, &d2, 3 );
-          sprintf( dataOut, "ODR[%d]: %d.%03d Hz\n", (int)id, (int)d1, (int)d2 );
-        }
-        
-        CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
-        
-        if ( BSP_ACCELERO_Get_FS( handle, &fullScale ) == COMPONENT_ERROR )
-        {
-          sprintf( dataOut, "FS[%d]: ERROR\n", id );
-        }
-        else
-        {
-          floatToInt( fullScale, &d1, &d2, 3 );
-          sprintf( dataOut, "FS[%d]: %d.%03d g\n", (int)id, (int)d1, (int)d2 );
-        }
-        
-        CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
-      }
-    }
-    else if(SD_Log_Enabled) /* Write data to the file on the SDCard */
-    {
-      uint8_t size;
-      size = sprintf(dataOut, "%d\t%d\t%d\t", (int)acceleration.AXIS_X, (int)acceleration.AXIS_Y, (int)acceleration.AXIS_Z);
-      res = f_write(&MyFile, dataOut, size, (void *)&byteswritten);
-    }
+    double a[3] = {acceleration.AXIS_X, acceleration.AXIS_Y, acceleration.AXIS_Z/10};
+    return a;
   }
+
+  double a[3] = {0,0,0};
+  return a;
 }
 
 
@@ -248,7 +189,7 @@ void Accelero_Sensor_Handler( void *handle, uint32_t msTick, uint32_t *msTickSta
 * @param  handle the device handle
 * @retval None
 */
-void Gyro_Sensor_Handler( void *handle )
+double *Gyro_Sensor_Handler( void *handle )
 {
   
   uint8_t who_am_i;
