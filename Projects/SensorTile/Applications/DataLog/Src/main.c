@@ -55,6 +55,8 @@
 
 /* Data acquisition period [ms] */
 #define DATA_PERIOD_MS (5) //Try out 5.
+#define TOTAL_TIME     18000
+#define INTERVAL       5
 //#define NOT_DEBUGGING
 
 /* Private macro -------------------------------------------------------------*/
@@ -83,6 +85,9 @@ static void *HTS221_H_0_handle = NULL;
 static void *HTS221_T_0_handle = NULL;
 static void *GG_handle = NULL;
 
+int arraylength = TOTAL_TIME/INTERVAL;
+int dataps = 1000/INTERVAL;
+
 /* Private function prototypes -----------------------------------------------*/
 
 static void Error_Handler( void );
@@ -94,13 +99,24 @@ static void initializeAllSensors( void );
 
 struct Motion
 {
-    double acceleero_vals[4000][3];
-    double gyro_vals[4000][3];
+    double AX_vals[TOTAL_TIME/INTERVAL];
+    double GY_vals[TOTAL_TIME/INTERVAL];
+
+    double AX_avg;
+    double AX_absavg;
+    double AX_peakavg;
+    double AX_peakspefavg;
 };
 
 
-/* Private functions ---------------------------------------------------------*/
+/* Private functions prototype---------------------------------------------------------*/
+
+//void normalize(struct Motion *motionptr);
+void analyze(struct Motion *motionptr);
+void findPeaks(char* axis, struct Motion *motionptr);
  
+/* Private functions ---------------------------------------------------------*/
+
 /**
   * @brief  Main program
   * @param  None
@@ -108,8 +124,8 @@ struct Motion
   */
 int main( void )
 {
-  uint32_t msTick, msTickPrev = 0, msTickStateChange = 0;
-  uint8_t doubleTap = 0, state = 0;
+  uint32_t msTick, msTickPrev = 0;
+  uint8_t doubleTap = 0;
   
   /* STM32L4xx HAL library initialization:
   - Configure the Flash prefetch, instruction and Data caches
@@ -182,26 +198,36 @@ int main( void )
 
   	  waitToProceed(&msTickPrev,10000);
       //lights saying to start motion
-      waitToProceed(&msTickPrev,2000); //stand still during this time
+      waitToProceed(&msTickPrev,1000); //stand still during this time
 
        //STAND STILL MOTION DATA ACQUISITION
-       for(int r = 0; r < 4000; r++)
+       for(int r = 0; r < arraylength; r++)
        {
-    	  waitToProceed(&msTickPrev,DATA_PERIOD_MS);
-     	  Stand.acceleero_vals[r]; // = what is returned by accelero func
-     	  Stand.gyro_vals[r]; // = what is returned by gyro func
+     	  Stand.AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle);
+     	  //Stand.gyro_vals[r]; // = what is returned by gyro func
+     	  waitToProceed(&msTickPrev,DATA_PERIOD_MS);
        }
+
+       static char dataOut[256];
+       for(int r = 0; r < arraylength; r++)
+       {
+    	   sprintf( dataOut, "%i\n", Stand.AX_vals[r]);
+    	   CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
+    	   waitToProceed(&msTickPrev,DATA_PERIOD_MS);
+       }
+
+
 
        waitToProceed(&msTickPrev,10000);
        //lights saying to start motion
        waitToProceed(&msTickPrev,2000); //start normally walking during this time
 
        //NORMAL WALK MOTION DATA ACQUISITION
-       for(int r = 0; r < 4000; r++)
+       for(int r = 0; r < arraylength; r++)
        {
-    	  waitToProceed(&msTickPrev,DATA_PERIOD_MS);
-     	  Normal.acceleero_vals[r]; // = what is returned by accelero func
-     	  Normal.gyro_vals[r]; // = what is returned by gyro func
+     	  Normal.AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle);; // = what is returned by accelero func
+     	  //Normal.gyro_vals[r]; // = what is returned by gyro func
+     	  waitToProceed(&msTickPrev,DATA_PERIOD_MS);
        }
 
        waitToProceed(&msTickPrev,10000);
@@ -210,11 +236,11 @@ int main( void )
 
 
        //STAIR ASCENT MOTION DATA ACQUISITION
-       for(int r = 0; r < 4000; r++)
+       for(int r = 0; r < arraylength; r++)
        {
-    	  waitToProceed(&msTickPrev,DATA_PERIOD_MS);
-     	  Ascent.acceleero_vals[r]; // = what is returned by accelero func
-     	  Ascent.gyro_vals[r]; // = what is returned by gyro func
+     	  Ascent.AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle);; // = what is returned by accelero func
+     	  //Ascent.gyro_vals[r]; // = what is returned by gyro func
+     	  waitToProceed(&msTickPrev,DATA_PERIOD_MS);
        }
 
        waitToProceed(&msTickPrev,10000);
@@ -223,12 +249,79 @@ int main( void )
 
 
        //STAIR DESCENT MOTION DATA ACQUISITION
-       for(int r = 0; r < 4000; r++)
+       for(int r = 0; r < arraylength; r++)
        {
-    	  waitToProceed(&msTickPrev,DATA_PERIOD_MS);
-     	  Descent.acceleero_vals[r]; // = what is returned by accelero func
-     	  Descent.gyro_vals[r]; // = what is returned by gyro func
+     	  Descent.AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle);; // = what is returned by accelero func
+     	  //Descent.gyro_vals[r]; // = what is returned by gyro func
+     	 waitToProceed(&msTickPrev,DATA_PERIOD_MS);
        }
+
+ //------------------------------------------------------------------------------------------------------------------------------------
+
+       Stand.AX_avg = 1;
+
+       normalize(&Stand);
+       normalize(&Normal);
+       normalize(&Ascent);
+       normalize(&Descent);
+       normalize(&New);
+
+       analyze(&Stand);
+       analyze(&Normal);
+       analyze(&Ascent);
+       analyze(&Descent);
+       analyze(&New);
+
+
+       if (New.AX_peakavg > 1000000) //just check to see if min and max value are not that different
+       {
+    	   //printf("Stand Still\n");
+
+       }
+
+       findPeaks("AX", &Normal);
+       findPeaks("AX", &Ascent);
+       findPeaks("AX", &Descent);
+       findPeaks("AX", &New);
+
+       double mean = (Ascent.AX_peakspefavg+Descent.AX_peakspefavg+Normal.AX_peakspefavg)/3;
+       Ascent.AX_peakspefavg /= mean;
+       Descent.AX_peakspefavg /= mean;
+       Normal.AX_peakspefavg /= mean;
+
+       New.AX_peakspefavg /= mean;
+
+       mean = (Ascent.AX_peakspefavg+Descent.AX_peakspefavg+Normal.AX_peakspefavg)/3;
+       Ascent.AX_peakspefavg -= mean;
+       Descent.AX_peakspefavg -= mean;
+       Normal.AX_peakspefavg -= mean;
+
+       New.AX_peakspefavg -= mean;
+
+
+       //1. percentage error to normal
+       //2. which difference is less
+       if(((fabs(New.AX_absavg-Ascent.AX_absavg) > fabs(New.AX_absavg-Normal.AX_absavg)) &&
+           (fabs(New.AX_absavg-Descent.AX_absavg) > fabs(New.AX_absavg-Normal.AX_absavg)))
+           ||(New.AX_peakspefavg < 0))
+       { //could also do same thing with GZ
+               //printf("Normal\n");
+       }
+
+       else
+       {
+    	   if((fabs(New.AX_peakspefavg - Ascent.AX_peakspefavg)) <
+               (fabs(New.AX_peakspefavg - Descent.AX_peakspefavg)))
+           {
+                   //printf("Ascent\n");
+           }
+
+           else
+           {
+              //printf("Descent\n");
+           }
+        }
+
 
  //------------------------------------------------------------------------------------------------------------------------------------
 
@@ -250,8 +343,6 @@ int main( void )
       }
 #endif
 
-
-      RTC_Handler( &RtcHandle);
       
       Accelero_Sensor_Handler( LSM6DSM_X_0_handle);
       
@@ -542,6 +633,80 @@ static void Error_Handler( void )
   
   while (1)
   {}
+}
+
+
+void normalize(struct Motion *motionptr)
+{
+    double absum = 0;
+
+    for(int r = 0; r < arraylength; r++)
+    {
+        absum += fabs(motionptr->AX_vals[r]);
+    }
+
+    double absavg = absum/arraylength;
+
+    for(int r = 0; r < arraylength; r++)
+    {
+        motionptr->AX_vals[r] /= absavg;
+        motionptr->AX_vals[r] -= 1;//Stand.AX_avg;
+    }
+}
+
+void analyze(struct Motion *motionptr)
+{
+    double sum = 0;
+    double absum = 0;
+
+    for(int r = 0; r < arraylength; r++)
+    {
+        sum += motionptr->AX_vals[r];
+        absum += fabs(motionptr->AX_vals[r]);
+    }
+
+    motionptr->AX_avg = sum/arraylength;
+    motionptr->AX_absavg = absum/arraylength;
+}
+
+void findPeaks(char* axis, struct Motion *motionptr)
+{
+    double *ptr;
+
+    if(!strcmp(axis, "AX"))
+    {
+        ptr = motionptr->AX_vals;
+    }
+
+    else if(!strcmp(axis, "GY"))
+    {
+        ptr = motionptr->GY_vals;
+    }
+
+    else
+    {
+        printf("INVALID AXIS PROVIDED TO FINDPEAK FUNCTION");
+        return;
+    }
+
+    double temppeakmax = -10000000000000;
+    double peaksum = 0;
+
+    for(int r = 0; r < arraylength; r++)
+    {
+        if(ptr[r] > temppeakmax)
+        {
+            temppeakmax = ptr[r];
+        }
+
+        if( ((r+1)%dataps) == 0)
+        {
+            peaksum += temppeakmax;
+            temppeakmax = -10000000000;
+        }
+    }
+
+    motionptr->AX_peakspefavg = peaksum/(TOTAL_TIME/1000);
 }
 
 

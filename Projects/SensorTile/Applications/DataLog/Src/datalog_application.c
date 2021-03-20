@@ -134,20 +134,20 @@ void DATALOG_SD_NewLine(void)
 
 void RTC_Handler( RTC_HandleTypeDef *RtcHandle)
 {
+	int subtract = 40000*((int)(HAL_GetTick()/40000));
 
 	if(SendOverUSB) // Write data on the USB
 	{
-		sprintf( dataOut, "\r%d, ", HAL_GetTick());
+		sprintf( dataOut, "\r%d, ", HAL_GetTick()-subtract);
 		CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
 	}
 	else if(SD_Log_Enabled) // Write data to the file on the SDCard
 	{
 		uint8_t size;
-		size = sprintf( dataOut, "\n%d, ", HAL_GetTick());
+		size = sprintf( dataOut, "\n%d, ", HAL_GetTick()-subtract);
 		res = f_write(&MyFile, dataOut, size, (void *)&byteswritten);
 	}
 }
-
 
 
 /**
@@ -155,7 +155,7 @@ void RTC_Handler( RTC_HandleTypeDef *RtcHandle)
 * @param  handle the device handle
 * @retval None
 */
-double *Accelero_Sensor_Handler( void *handle)
+double Accelero_Sensor_Handler( void *handle)
 {
   uint8_t id;
   SensorAxes_t acceleration;
@@ -173,13 +173,10 @@ double *Accelero_Sensor_Handler( void *handle)
       acceleration.AXIS_Y = 0;
       acceleration.AXIS_Z = 0;
     }
-
-    double a[3] = {acceleration.AXIS_X, acceleration.AXIS_Y, acceleration.AXIS_Z/10};
-    return a;
   }
 
-  double a[3] = {0,0,0};
-  return a;
+  double value = acceleration.AXIS_X;
+  return value;
 }
 
 
@@ -189,16 +186,12 @@ double *Accelero_Sensor_Handler( void *handle)
 * @param  handle the device handle
 * @retval None
 */
-double *Gyro_Sensor_Handler( void *handle )
+double Gyro_Sensor_Handler( void *handle )
 {
   
-  uint8_t who_am_i;
-  float odr;
-  float fullScale;
   uint8_t id;
   SensorAxes_t angular_velocity;
   uint8_t status;
-  int32_t d1, d2;
   
   BSP_GYRO_Get_Instance( handle, &id );
   
@@ -212,65 +205,10 @@ double *Gyro_Sensor_Handler( void *handle )
       angular_velocity.AXIS_Y = 0;
       angular_velocity.AXIS_Z = 0;
     }
-    
-    if(SendOverUSB) //Write data on the USB
-    {
-    	/*uint32_t abs_acc2;
-    	abs_acc2 = ((int)angular_velocity.AXIS_X * (int)angular_velocity.AXIS_X);
-    	abs_acc2 += ((int)angular_velocity.AXIS_Y * (int)angular_velocity.AXIS_Y);
-    	abs_acc2 += ((int)angular_velocity.AXIS_Z * (int)angular_velocity.AXIS_Z);
-    	abs_acc2 = sqrt((float) abs_acc2);*/
+   }
 
-
-      sprintf( dataOut, ", %i, %i, %i\n",
-    		  (int) angular_velocity.AXIS_X/1000, (int) angular_velocity.AXIS_Y/1000, (int) angular_velocity.AXIS_Z/1000);
-      CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
-
-      if ( verbose == 1 )
-      {
-        if ( BSP_GYRO_Get_WhoAmI( handle, &who_am_i ) == COMPONENT_ERROR )
-        {
-          sprintf( dataOut, "WHO AM I address[%d]: ERROR\n", id );
-        }
-        else
-        {
-          sprintf( dataOut, "WHO AM I address[%d]: 0x%02X\n", id, who_am_i );
-        }
-        
-        CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
-        
-        if ( BSP_GYRO_Get_ODR( handle, &odr ) == COMPONENT_ERROR )
-        {
-          sprintf( dataOut, "ODR[%d]: ERROR\n", id );
-        }
-        else
-        {
-          floatToInt( odr, &d1, &d2, 3 );
-          sprintf( dataOut, "ODR[%d]: %d.%03d Hz\n", (int)id, (int)d1, (int)d2 );
-        }
-        
-        CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
-        
-        if ( BSP_GYRO_Get_FS( handle, &fullScale ) == COMPONENT_ERROR )
-        {
-          sprintf( dataOut, "FS[%d]: ERROR\n", id );
-        }
-        else
-        {
-          floatToInt( fullScale, &d1, &d2, 3 );
-          sprintf( dataOut, "FS[%d]: %d.%03d dps\n", (int)id, (int)d1, (int)d2 );
-        }
-        
-        CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
-      }
-    }
-    else if(SD_Log_Enabled) // Write data to the file on the SDCard
-    {
-      uint8_t size;
-      size = sprintf(dataOut, "%d\t%d\t%d\t", (int)angular_velocity.AXIS_X, (int)angular_velocity.AXIS_Y, (int)angular_velocity.AXIS_Z);
-      res = f_write(&MyFile, dataOut, size, (void *)&byteswritten);
-    }
-  }
+  double value = angular_velocity.AXIS_X;
+  return value;
 }
 
 
@@ -302,6 +240,7 @@ void waitToProceed(uint32_t *msTickPrev, uint32_t data_period)
 {
 	uint32_t msTick = HAL_GetTick();
 	while(!(msTick % data_period == 0 && *msTickPrev != msTick))
+		//while(msTick-msTickPrev < datat_period)
 	{
 		msTick = HAL_GetTick();
 	}
