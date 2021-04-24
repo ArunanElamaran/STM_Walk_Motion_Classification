@@ -182,39 +182,6 @@ double Accelero_Sensor_Handler( void *handle)
 
 
 /**
-* @brief  Handles the gyroscope axes data getting/sending
-* @param  handle the device handle
-* @retval None
-*/
-double Gyro_Sensor_Handler( void *handle )
-{
-  
-  uint8_t id;
-  SensorAxes_t angular_velocity;
-  uint8_t status;
-  
-  BSP_GYRO_Get_Instance( handle, &id );
-  
-  BSP_GYRO_IsInitialized( handle, &status );
-  
-  if ( status == 1 )
-  {
-    if ( BSP_GYRO_Get_Axes( handle, &angular_velocity ) == COMPONENT_ERROR )
-    {
-      angular_velocity.AXIS_X = 0;
-      angular_velocity.AXIS_Y = 0;
-      angular_velocity.AXIS_Z = 0;
-    }
-   }
-
-  double value = angular_velocity.AXIS_X;
-  return value;
-}
-
-
-
-
-/**
 * @brief  Splits a float into two integer values.
 * @param  in the float value as input
 * @param  out_int the pointer to the integer part as output
@@ -239,8 +206,9 @@ void floatToInt( float in, int32_t *out_int, int32_t *out_dec, int32_t dec_prec 
 void waitToProceed(uint32_t *msTickPrev, uint32_t data_period)
 {
 	uint32_t msTick = HAL_GetTick();
-	while(!(msTick % data_period == 0 && *msTickPrev != msTick))
-		//while(msTick-msTickPrev < datat_period)
+	//while(!(msTick % data_period == 0 && *msTickPrev != msTick))
+	uint32_t prev = *msTickPrev;
+	while(msTick-prev < data_period)
 	{
 		msTick = HAL_GetTick();
 	}

@@ -55,7 +55,7 @@
 
 /* Data acquisition period [ms] */
 #define DATA_PERIOD_MS (5) //Try out 5.
-#define TOTAL_TIME     18000
+#define TOTAL_TIME     9000
 #define INTERVAL       5
 //#define NOT_DEBUGGING
 
@@ -97,10 +97,9 @@ static void initializeAllSensors( void );
 
 /* MOTION DATA STORAGE -----------------------------------------------*/
 
-struct Motion
+struct Motions
 {
-    double AX_vals[TOTAL_TIME/INTERVAL];
-    double GY_vals[TOTAL_TIME/INTERVAL];
+    float AX_vals[TOTAL_TIME/INTERVAL];
 
     double AX_avg;
     double AX_absavg;
@@ -109,11 +108,20 @@ struct Motion
 };
 
 
+/* MOTION DATA VARIABLE DECLARATION -----------------------------------------------*/
+	struct Motions Normal;
+	struct Motions Ascent;
+	struct Motions Descent;
+	struct Motions New;
+
+ //------------------------------------------------------------------------------------------------------------------------------------
+
+
 /* Private functions prototype---------------------------------------------------------*/
 
-//void normalize(struct Motion *motionptr);
-void analyze(struct Motion *motionptr);
-void findPeaks(char* axis, struct Motion *motionptr);
+void normalize(struct Motions *motionptr);
+void analyze(struct Motions *motionptr);
+void findPeaks(char* axis, struct Motions *motionptr);
  
 /* Private functions ---------------------------------------------------------*/
 
@@ -126,7 +134,7 @@ int main( void )
 {
   uint32_t msTick, msTickPrev = 0;
   uint8_t doubleTap = 0;
-  
+
   /* STM32L4xx HAL library initialization:
   - Configure the Flash prefetch, instruction and Data caches
   - Configure the Systick to generate an interrupt each 1 msec
@@ -134,17 +142,17 @@ int main( void )
   - Global MSP (MCU Support Package) initialization
   */
   HAL_Init();
-  
+
   /* Configure the system clock */
   SystemClock_Config();
-  
+
   if(SendOverUSB)
   {
     /* Initialize LED */
     BSP_LED_Init(LED1);
-    BSP_LED_On(LED1);
+    //BSP_LED_On(LED1);
   }
-#ifdef NOT_DEBUGGING     
+#ifdef NOT_DEBUGGING
   else
   {
     /* Initialize LEDSWD: Cannot be used during debug because it overrides SWDCLK pin configuration */
@@ -152,14 +160,14 @@ int main( void )
     BSP_LED_Off(LEDSWD);
   }
 #endif
-  
+
   /* Initialize RTC */
   RTC_Config();
   RTC_TimeStampConfig();
-  
+
   /* enable USB power on Pwrctrl CR2 register */
   HAL_PWREx_EnableVddUSB();
-  
+
   if(SendOverUSB) /* Configure the USB */
   {
     /*** USB CDC Configuration ***/
@@ -177,126 +185,124 @@ int main( void )
     DATALOG_SD_Init();
   }
   HAL_Delay(200);
-  
+
   /* Configure and disable all the Chip Select pins */
   Sensor_IO_SPI_CS_Init_All();
-  
+
   /* Initialize and Enable the available sensors */
   initializeAllSensors();
   enableAllSensors();
-  
+
   BSP_ACCELERO_Set_FS_Value( LSM6DSM_X_0_handle , 104.0f);
 
-  /* MOTION DATA VARIABLE DECLARATION -----------------------------------------------*/
-  	  struct Motion Stand;
-  	  struct Motion Normal;
-  	  struct Motion Ascent;
-  	  struct Motion Descent;
-  	  struct Motion New;
+
+  static char dataOut[256];
+
 
   //------------------------------------------------------------------------------------------------------------------------------------
-
-  	  waitToProceed(&msTickPrev,10000);
-      //lights saying to start motion
-      waitToProceed(&msTickPrev,1000); //stand still during this time
-
-       //STAND STILL MOTION DATA ACQUISITION
-       for(int r = 0; r < arraylength; r++)
-       {
-     	  Stand.AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle);
-     	  //Stand.gyro_vals[r]; // = what is returned by gyro func
-     	  waitToProceed(&msTickPrev,DATA_PERIOD_MS);
-       }
-
-       static char dataOut[256];
-       for(int r = 0; r < arraylength; r++)
-       {
-    	   sprintf( dataOut, "%i\n", Stand.AX_vals[r]);
-    	   CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
-    	   waitToProceed(&msTickPrev,DATA_PERIOD_MS);
-       }
+  	   BSP_LED_Off(LED1);
+       waitToProceed(&msTickPrev,5000);
 
 
 
-       waitToProceed(&msTickPrev,10000);
-       //lights saying to start motion
+       BSP_LED_On(LED1);
        waitToProceed(&msTickPrev,2000); //start normally walking during this time
-
        //NORMAL WALK MOTION DATA ACQUISITION
        for(int r = 0; r < arraylength; r++)
        {
      	  Normal.AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle);; // = what is returned by accelero func
-     	  //Normal.gyro_vals[r]; // = what is returned by gyro func
      	  waitToProceed(&msTickPrev,DATA_PERIOD_MS);
        }
+       BSP_LED_Off(LED1);
+       waitToProceed(&msTickPrev,5000);
 
-       waitToProceed(&msTickPrev,10000);
-       //lights saying to start motion
+
+
+       BSP_LED_On(LED1);
        waitToProceed(&msTickPrev,2000); // start stair ascent during this time
-
-
        //STAIR ASCENT MOTION DATA ACQUISITION
        for(int r = 0; r < arraylength; r++)
        {
      	  Ascent.AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle);; // = what is returned by accelero func
-     	  //Ascent.gyro_vals[r]; // = what is returned by gyro func
      	  waitToProceed(&msTickPrev,DATA_PERIOD_MS);
        }
+       BSP_LED_Off(LED1);
+       waitToProceed(&msTickPrev,5000);
 
-       waitToProceed(&msTickPrev,10000);
-       //lights saying to start motion
+
+
+       BSP_LED_On(LED1);
        waitToProceed(&msTickPrev,2000);//start stair descent during this time
-
-
        //STAIR DESCENT MOTION DATA ACQUISITION
        for(int r = 0; r < arraylength; r++)
        {
      	  Descent.AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle);; // = what is returned by accelero func
-     	  //Descent.gyro_vals[r]; // = what is returned by gyro func
      	 waitToProceed(&msTickPrev,DATA_PERIOD_MS);
        }
+       BSP_LED_Off(LED1);
 
  //------------------------------------------------------------------------------------------------------------------------------------
 
-       Stand.AX_avg = 1;
-
-       normalize(&Stand);
        normalize(&Normal);
        normalize(&Ascent);
        normalize(&Descent);
-       normalize(&New);
 
-       analyze(&Stand);
+
        analyze(&Normal);
        analyze(&Ascent);
        analyze(&Descent);
+
+
+       findPeaks("AX", &Normal);
+       findPeaks("AX", &Ascent);
+       findPeaks("AX", &Descent);
+
+       double mean1 = (Ascent.AX_peakspefavg+Descent.AX_peakspefavg+Normal.AX_peakspefavg)/3;
+       Ascent.AX_peakspefavg /= mean1;
+       Descent.AX_peakspefavg /= mean1;
+       Normal.AX_peakspefavg /= mean1;
+
+       double mean2 = (Ascent.AX_peakspefavg+Descent.AX_peakspefavg+Normal.AX_peakspefavg)/3;
+       Ascent.AX_peakspefavg -= mean2;
+       Descent.AX_peakspefavg -= mean2;
+       Normal.AX_peakspefavg -= mean2;
+
+ //------------------------------------------------------------------------------------------------------------------------------------
+
+      waitToProceed(&msTickPrev,10000);
+	  BSP_LED_On(LED1);
+	  waitToProceed(&msTickPrev,2000);//start stair descent during this time
+
+	  //NEW MOTION DATA ACQUISITION
+	  for(int r = 0; r < arraylength; r++)
+	  {
+		 New.AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle);; // = what is returned by accelero func
+		 waitToProceed(&msTickPrev,DATA_PERIOD_MS);
+	  }
+	  BSP_LED_Off(LED1);
+
+
+       normalize(&New);
        analyze(&New);
 
 
        if (New.AX_peakavg > 1000000) //just check to see if min and max value are not that different
        {
-    	   //printf("Stand Still\n");
+    	   sprintf( dataOut, "Still\n");
+			 CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
+		   for(int i = 0; i < 1; i++) //Still
+		   {
+			  BSP_LED_On(LED1);
+			  waitToProceed(&msTickPrev,500);//start stair descent during this time
+			  BSP_LED_Off(LED1);
+		   }
 
        }
 
-       findPeaks("AX", &Normal);
-       findPeaks("AX", &Ascent);
-       findPeaks("AX", &Descent);
        findPeaks("AX", &New);
 
-       double mean = (Ascent.AX_peakspefavg+Descent.AX_peakspefavg+Normal.AX_peakspefavg)/3;
-       Ascent.AX_peakspefavg /= mean;
-       Descent.AX_peakspefavg /= mean;
-       Normal.AX_peakspefavg /= mean;
-
-       New.AX_peakspefavg /= mean;
-
-       mean = (Ascent.AX_peakspefavg+Descent.AX_peakspefavg+Normal.AX_peakspefavg)/3;
-       Ascent.AX_peakspefavg -= mean;
-       Descent.AX_peakspefavg -= mean;
-       Normal.AX_peakspefavg -= mean;
-
-       New.AX_peakspefavg -= mean;
+       New.AX_peakspefavg /= mean1;
+       New.AX_peakspefavg -= mean2;
 
 
        //1. percentage error to normal
@@ -304,8 +310,15 @@ int main( void )
        if(((fabs(New.AX_absavg-Ascent.AX_absavg) > fabs(New.AX_absavg-Normal.AX_absavg)) &&
            (fabs(New.AX_absavg-Descent.AX_absavg) > fabs(New.AX_absavg-Normal.AX_absavg)))
            ||(New.AX_peakspefavg < 0))
-       { //could also do same thing with GZ
-               //printf("Normal\n");
+       {
+    	   sprintf( dataOut, "Normal\n");
+    	     CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
+		   for(int i = 0; i < 2; i++) //Normal
+		   {
+			  BSP_LED_On(LED1);
+			  waitToProceed(&msTickPrev,500);//start stair descent during this time
+			  BSP_LED_Off(LED1);
+		   }
        }
 
        else
@@ -313,93 +326,106 @@ int main( void )
     	   if((fabs(New.AX_peakspefavg - Ascent.AX_peakspefavg)) <
                (fabs(New.AX_peakspefavg - Descent.AX_peakspefavg)))
            {
-                   //printf("Ascent\n");
+    		   sprintf( dataOut, "Ascent\n");
+    		     CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
+    		   for(int i = 0; i < 3; i++) //Ascent
+			   {
+				  BSP_LED_On(LED1);
+				  waitToProceed(&msTickPrev,500);//start stair descent during this time
+				  BSP_LED_Off(LED1);
+			   }
            }
 
            else
            {
-              //printf("Descent\n");
+        	   sprintf( dataOut, "Descent\n");
+        	     CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
+        	   for(int i = 0; i < 4; i++) //Descent
+			   {
+				  BSP_LED_On(LED1);
+				  waitToProceed(&msTickPrev,500);//start stair descent during this time
+				  BSP_LED_Off(LED1);
+			   }
            }
         }
 
 
  //------------------------------------------------------------------------------------------------------------------------------------
 
-  while (1)
-  {
-    /* Get sysTick value and check if it's time to execute the task */
-    msTick = HAL_GetTick();
-    if(msTick % DATA_PERIOD_MS == 0 && msTickPrev != msTick)
-    {
-      msTickPrev = msTick;
-      if(SendOverUSB)
-      {
-        BSP_LED_On(LED1);
-      }
-#ifdef NOT_DEBUGGING     
-      else if (SD_Log_Enabled) 
-      {
-        BSP_LED_On(LEDSWD);
-      }
-#endif
+       while (1)
+         {
+           /* Get sysTick value and check if it's time to execute the task */
+           msTick = HAL_GetTick();
+           if(msTick % DATA_PERIOD_MS == 0 && msTickPrev != msTick)
+           {
+             msTickPrev = msTick;
+             if(SendOverUSB)
+             {
+               //BSP_LED_On(LED1);
+             }
+       #ifdef NOT_DEBUGGING
+             else if (SD_Log_Enabled)
+             {
+               BSP_LED_On(LEDSWD);
+             }
+       #endif
 
-      
-      Accelero_Sensor_Handler( LSM6DSM_X_0_handle);
-      
-      Gyro_Sensor_Handler( LSM6DSM_G_0_handle );
-      
-      //BSP_LED_On(LED1);
 
-      if(SD_Log_Enabled) /* Write data to the file on the SDCard */
-      {
-        DATALOG_SD_NewLine();
-      }
-      
-      if(SendOverUSB)
-      {
-        BSP_LED_Off(LED1);
-      }
-#ifdef NOT_DEBUGGING     
-      else if (SD_Log_Enabled) 
-      {
-        BSP_LED_Off(LEDSWD);
-      }
-#endif
-    }
-      
-    /* Check LSM6DSM Double Tap Event  */
-    if(MEMSInterrupt)
-    {
-      MEMSInterrupt = 0;
-      BSP_ACCELERO_Get_Double_Tap_Detection_Status_Ext(LSM6DSM_X_0_handle,&doubleTap);
-      if(doubleTap) { /* Double Tap event */
-        if (SD_Log_Enabled) 
-        {
-          DATALOG_SD_Log_Disable();
-          SD_Log_Enabled=0;
-        }
-        else
-        {
-          while(SD_Log_Enabled != 1)
-          {
-            if(DATALOG_SD_Log_Enable())
-            {
-              SD_Log_Enabled=1;
-            }
-            else
-            {
-              DATALOG_SD_Log_Disable();
-            }
-            HAL_Delay(100);
-          }
-        }
-      }
-    }
-    
-    /* Go to Sleep */
-    __WFI();
-  }
-}
+             Accelero_Sensor_Handler( LSM6DSM_X_0_handle);
+
+
+             //BSP_LED_On(LED1);
+
+             if(SD_Log_Enabled) /* Write data to the file on the SDCard */
+             {
+               DATALOG_SD_NewLine();
+             }
+
+             if(SendOverUSB)
+             {
+               BSP_LED_Off(LED1);
+             }
+       #ifdef NOT_DEBUGGING
+             else if (SD_Log_Enabled)
+             {
+               BSP_LED_Off(LEDSWD);
+             }
+       #endif
+           }
+
+           /* Check LSM6DSM Double Tap Event  */
+           if(MEMSInterrupt)
+           {
+             MEMSInterrupt = 0;
+             BSP_ACCELERO_Get_Double_Tap_Detection_Status_Ext(LSM6DSM_X_0_handle,&doubleTap);
+             if(doubleTap) { /* Double Tap event */
+               if (SD_Log_Enabled)
+               {
+                 DATALOG_SD_Log_Disable();
+                 SD_Log_Enabled=0;
+               }
+               else
+               {
+                 while(SD_Log_Enabled != 1)
+                 {
+                   if(DATALOG_SD_Log_Enable())
+                   {
+                     SD_Log_Enabled=1;
+                   }
+                   else
+                   {
+                     DATALOG_SD_Log_Disable();
+                   }
+                   HAL_Delay(100);
+                 }
+               }
+             }
+           }
+
+           /* Go to Sleep */
+           __WFI();
+         }
+       }
 
 
 
@@ -636,7 +662,7 @@ static void Error_Handler( void )
 }
 
 
-void normalize(struct Motion *motionptr)
+void normalize(struct Motions *motionptr)
 {
     double absum = 0;
 
@@ -654,7 +680,7 @@ void normalize(struct Motion *motionptr)
     }
 }
 
-void analyze(struct Motion *motionptr)
+void analyze(struct Motions *motionptr)
 {
     double sum = 0;
     double absum = 0;
@@ -669,18 +695,13 @@ void analyze(struct Motion *motionptr)
     motionptr->AX_absavg = absum/arraylength;
 }
 
-void findPeaks(char* axis, struct Motion *motionptr)
+void findPeaks(char* axis, struct Motions *motionptr)
 {
     double *ptr;
 
     if(!strcmp(axis, "AX"))
     {
         ptr = motionptr->AX_vals;
-    }
-
-    else if(!strcmp(axis, "GY"))
-    {
-        ptr = motionptr->GY_vals;
     }
 
     else
