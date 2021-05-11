@@ -217,7 +217,6 @@ int main( void )
        waitToProceed(&msTickPrev,5000);
 
 
-
        BSP_LED_On(LED1);
        waitToProceed(&msTickPrev,2000); // start stair ascent during this time
        //STAIR ASCENT MOTION DATA ACQUISITION
@@ -243,6 +242,7 @@ int main( void )
 
  //------------------------------------------------------------------------------------------------------------------------------------
 
+       normalize(&Normal);
        normalize(&Normal);
        normalize(&Ascent);
        normalize(&Descent);
@@ -271,7 +271,7 @@ int main( void )
 
       waitToProceed(&msTickPrev,10000);
 	  BSP_LED_On(LED1);
-	  waitToProceed(&msTickPrev,2000);//start stair descent during this time
+	  waitToProceed(&msTickPrev,2000);//start new motion during this time
 
 	  //NEW MOTION DATA ACQUISITION
 	  for(int r = 0; r < arraylength; r++)
@@ -307,9 +307,8 @@ int main( void )
 
        //1. percentage error to normal
        //2. which difference is less
-       if(((fabs(New.AX_absavg-Ascent.AX_absavg) > fabs(New.AX_absavg-Normal.AX_absavg)) &&
+       if((fabs(New.AX_absavg-Ascent.AX_absavg) > fabs(New.AX_absavg-Normal.AX_absavg)) &&
            (fabs(New.AX_absavg-Descent.AX_absavg) > fabs(New.AX_absavg-Normal.AX_absavg)))
-           ||(New.AX_peakspefavg < 0))
        {
     	   sprintf( dataOut, "Normal\n");
     	     CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
@@ -664,14 +663,22 @@ static void Error_Handler( void )
 
 void normalize(struct Motions *motionptr)
 {
-    double absum = 0;
+	static char dataOut[256];
+
+    int absum = 0;
 
     for(int r = 0; r < arraylength; r++)
     {
-        absum += fabs(motionptr->AX_vals[r]);
+        absum += abs(motionptr->AX_vals[r]);
     }
 
-    double absavg = absum/arraylength;
+    //sprintf( dataOut, "final sum:  %i......arraylength: %i\n", absum, arraylength);
+    //CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
+
+    double absavg = (double)absum/arraylength;
+    absavg = 0.00000123;
+    //sprintf( dataOut, "absavg: %f\n", 0.3);
+    //CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
 
     for(int r = 0; r < arraylength; r++)
     {
