@@ -204,9 +204,8 @@ int main( void )
        waitToProceed(&msTickPrev,5000);
 
 
-
        BSP_LED_On(LED1);
-       waitToProceed(&msTickPrev,2000); //start normally walking during this time
+       waitToProceed(&msTickPrev,3000); //start normally walking during this time
        //NORMAL WALK MOTION DATA ACQUISITION
        for(int r = 0; r < arraylength; r++)
        {
@@ -218,7 +217,7 @@ int main( void )
 
 
        BSP_LED_On(LED1);
-       waitToProceed(&msTickPrev,2000); // start stair ascent during this time
+       waitToProceed(&msTickPrev,3000); // start stair ascent during this time
        //STAIR ASCENT MOTION DATA ACQUISITION
        for(int r = 0; r < arraylength; r++)
        {
@@ -231,7 +230,7 @@ int main( void )
 
 
        BSP_LED_On(LED1);
-       waitToProceed(&msTickPrev,2000);//start stair descent during this time
+       waitToProceed(&msTickPrev,3000);//start stair descent during this time
        //STAIR DESCENT MOTION DATA ACQUISITION
        for(int r = 0; r < arraylength; r++)
        {
@@ -242,7 +241,6 @@ int main( void )
 
  //------------------------------------------------------------------------------------------------------------------------------------
 
-       normalize(&Normal);
        normalize(&Normal);
        normalize(&Ascent);
        normalize(&Descent);
@@ -271,7 +269,7 @@ int main( void )
 
       waitToProceed(&msTickPrev,10000);
 	  BSP_LED_On(LED1);
-	  waitToProceed(&msTickPrev,2000);//start new motion during this time
+	  waitToProceed(&msTickPrev,3000);//start new motion during this time
 
 	  //NEW MOTION DATA ACQUISITION
 	  for(int r = 0; r < arraylength; r++)
