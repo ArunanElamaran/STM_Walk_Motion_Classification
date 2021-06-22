@@ -99,13 +99,13 @@ static void initializeAllSensors( void );
 
 struct Motions
 {
-    float AX_vals[TOTAL_TIME/INTERVAL];
-
     double AX_avg;
     double AX_absavg;
     double AX_peakavg;
     double AX_peakspefavg;
 };
+
+float AX_vals[TOTAL_TIME/INTERVAL];
 
 
 /* MOTION DATA VARIABLE DECLARATION -----------------------------------------------*/
@@ -201,7 +201,7 @@ int main( void )
 
   //------------------------------------------------------------------------------------------------------------------------------------
   	   BSP_LED_Off(LED1);
-       waitToProceed(&msTickPrev,5000);
+       waitToProceed(&msTickPrev,10000);
 
 
        BSP_LED_On(LED1);
@@ -209,11 +209,14 @@ int main( void )
        //NORMAL WALK MOTION DATA ACQUISITION
        for(int r = 0; r < arraylength; r++)
        {
-     	  Normal.AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle);; // = what is returned by accelero func
+     	  AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle);; // = what is returned by accelero func
      	  waitToProceed(&msTickPrev,DATA_PERIOD_MS);
        }
        BSP_LED_Off(LED1);
-       waitToProceed(&msTickPrev,5000);
+       normalize(&Normal);
+       analyze(&Normal);
+       findPeaks("AX", &Normal);
+       waitToProceed(&msTickPrev,10000);
 
 
        BSP_LED_On(LED1);
@@ -221,11 +224,14 @@ int main( void )
        //STAIR ASCENT MOTION DATA ACQUISITION
        for(int r = 0; r < arraylength; r++)
        {
-     	  Ascent.AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle);; // = what is returned by accelero func
+     	  AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle);; // = what is returned by accelero func
      	  waitToProceed(&msTickPrev,DATA_PERIOD_MS);
        }
        BSP_LED_Off(LED1);
-       waitToProceed(&msTickPrev,5000);
+       normalize(&Ascent);
+       analyze(&Ascent);
+       findPeaks("AX", &Ascent);
+       waitToProceed(&msTickPrev,10000);
 
 
 
@@ -234,26 +240,15 @@ int main( void )
        //STAIR DESCENT MOTION DATA ACQUISITION
        for(int r = 0; r < arraylength; r++)
        {
-     	  Descent.AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle);; // = what is returned by accelero func
+     	  AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle);; // = what is returned by accelero func
      	 waitToProceed(&msTickPrev,DATA_PERIOD_MS);
        }
        BSP_LED_Off(LED1);
+       normalize(&Descent);
+       analyze(&Descent);
+       findPeaks("AX", &Descent);
 
  //------------------------------------------------------------------------------------------------------------------------------------
-
-       normalize(&Normal);
-       normalize(&Ascent);
-       normalize(&Descent);
-
-
-       analyze(&Normal);
-       analyze(&Ascent);
-       analyze(&Descent);
-
-
-       findPeaks("AX", &Normal);
-       findPeaks("AX", &Ascent);
-       findPeaks("AX", &Descent);
 
        double mean1 = (Ascent.AX_peakspefavg+Descent.AX_peakspefavg+Normal.AX_peakspefavg)/3;
        Ascent.AX_peakspefavg /= mean1;
@@ -274,7 +269,7 @@ int main( void )
 	  //NEW MOTION DATA ACQUISITION
 	  for(int r = 0; r < arraylength; r++)
 	  {
-		 New.AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle);; // = what is returned by accelero func
+		 AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle);; // = what is returned by accelero func
 		 waitToProceed(&msTickPrev,DATA_PERIOD_MS);
 	  }
 	  BSP_LED_Off(LED1);
@@ -667,7 +662,7 @@ void normalize(struct Motions *motionptr)
 
     for(int r = 0; r < arraylength; r++)
     {
-        absum += abs(motionptr->AX_vals[r]);
+        absum += abs(AX_vals[r]);
     }
 
     //sprintf( dataOut, "final sum:  %i......arraylength: %i\n", absum, arraylength);
@@ -680,8 +675,8 @@ void normalize(struct Motions *motionptr)
 
     for(int r = 0; r < arraylength; r++)
     {
-        motionptr->AX_vals[r] /= absavg;
-        motionptr->AX_vals[r] -= 1;//Stand.AX_avg;
+        AX_vals[r] /= absavg;
+        AX_vals[r] -= 1;//Stand.AX_avg;
     }
 }
 
@@ -692,8 +687,8 @@ void analyze(struct Motions *motionptr)
 
     for(int r = 0; r < arraylength; r++)
     {
-        sum += motionptr->AX_vals[r];
-        absum += fabs(motionptr->AX_vals[r]);
+        sum += AX_vals[r];
+        absum += fabs(AX_vals[r]);
     }
 
     motionptr->AX_avg = sum/arraylength;
@@ -706,7 +701,7 @@ void findPeaks(char* axis, struct Motions *motionptr)
 
     if(!strcmp(axis, "AX"))
     {
-        ptr = motionptr->AX_vals;
+        ptr = AX_vals;
     }
 
     else
