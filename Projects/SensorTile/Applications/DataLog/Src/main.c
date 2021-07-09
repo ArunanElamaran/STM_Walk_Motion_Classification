@@ -114,6 +114,9 @@ float AX_vals[TOTAL_TIME/INTERVAL];
 	struct Motions Descent;
 	struct Motions New;
 
+/* GLOBAL VARIABLE DECLARATION -----------------------------------------------*/
+	int standavg = 0;
+	int newrawavg = 0;
  //------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -203,13 +206,29 @@ int main( void )
   	   BSP_LED_Off(LED1);
        waitToProceed(&msTickPrev,10000);
 
+      BSP_LED_On(LED1);
+	  waitToProceed(&msTickPrev,3000); //start to stand still during this time
+	  //STAND STILL MOTION DATA ACQUISITION
+	  for(int r = 0; r < arraylength; r++)
+	  {
+		  AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle);; // = what is returned by accelero func
+		  waitToProceed(&msTickPrev,DATA_PERIOD_MS);
+	  }
+	  BSP_LED_Off(LED1);
+	  for(int r = 0; r < arraylength; r++)
+	  {
+		  standavg += AX_vals[r];
+	  }
+	  standavg /= arraylength;
+	  waitToProceed(&msTickPrev,10000);
+
 
        BSP_LED_On(LED1);
        waitToProceed(&msTickPrev,3000); //start normally walking during this time
        //NORMAL WALK MOTION DATA ACQUISITION
        for(int r = 0; r < arraylength; r++)
        {
-     	  AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle);; // = what is returned by accelero func
+     	  AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle); // = what is returned by accelero func
      	  waitToProceed(&msTickPrev,DATA_PERIOD_MS);
        }
        BSP_LED_Off(LED1);
@@ -224,7 +243,7 @@ int main( void )
        //STAIR ASCENT MOTION DATA ACQUISITION
        for(int r = 0; r < arraylength; r++)
        {
-     	  AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle);; // = what is returned by accelero func
+     	  AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle); // = what is returned by accelero func
      	  waitToProceed(&msTickPrev,DATA_PERIOD_MS);
        }
        BSP_LED_Off(LED1);
@@ -240,7 +259,7 @@ int main( void )
        //STAIR DESCENT MOTION DATA ACQUISITION
        for(int r = 0; r < arraylength; r++)
        {
-     	  AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle);; // = what is returned by accelero func
+     	  AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle); // = what is returned by accelero func
      	 waitToProceed(&msTickPrev,DATA_PERIOD_MS);
        }
        BSP_LED_Off(LED1);
@@ -269,24 +288,30 @@ int main( void )
 	  //NEW MOTION DATA ACQUISITION
 	  for(int r = 0; r < arraylength; r++)
 	  {
-		 AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle);; // = what is returned by accelero func
+		 AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle); // = what is returned by accelero func
 		 waitToProceed(&msTickPrev,DATA_PERIOD_MS);
 	  }
 	  BSP_LED_Off(LED1);
 
+	  newrawavg = 0;
+	  for(int r = 0; r < arraylength; r++)
+	  {
+		  newrawavg += AX_vals[r];
+	  }
 
        normalize(&New);
        analyze(&New);
 
 
-       if (New.AX_peakavg > 1000000) //just check to see if min and max value are not that different
+       //if (New.AX_peakavg > 1000000) //just check to see if min and max value are not that different
+       if ((abs(newrawavg - standavg) < 50) && (1))
        {
     	   sprintf( dataOut, "Still\n");
 			 CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
 		   for(int i = 0; i < 1; i++) //Still
 		   {
 			  BSP_LED_On(LED1);
-			  waitToProceed(&msTickPrev,500);//start stair descent during this time
+			  waitToProceed(&msTickPrev,500);
 			  BSP_LED_Off(LED1);
 		   }
 
@@ -308,7 +333,7 @@ int main( void )
 		   for(int i = 0; i < 2; i++) //Normal
 		   {
 			  BSP_LED_On(LED1);
-			  waitToProceed(&msTickPrev,500);//start stair descent during this time
+			  waitToProceed(&msTickPrev,500);
 			  BSP_LED_Off(LED1);
 		   }
        }
@@ -323,7 +348,7 @@ int main( void )
     		   for(int i = 0; i < 3; i++) //Ascent
 			   {
 				  BSP_LED_On(LED1);
-				  waitToProceed(&msTickPrev,500);//start stair descent during this time
+				  waitToProceed(&msTickPrev,500);
 				  BSP_LED_Off(LED1);
 			   }
            }
@@ -335,7 +360,7 @@ int main( void )
         	   for(int i = 0; i < 4; i++) //Descent
 			   {
 				  BSP_LED_On(LED1);
-				  waitToProceed(&msTickPrev,500);//start stair descent during this time
+				  waitToProceed(&msTickPrev,500);
 				  BSP_LED_Off(LED1);
 			   }
            }
