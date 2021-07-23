@@ -124,7 +124,7 @@ float AX_vals[TOTAL_TIME/INTERVAL];
 
 void normalize(struct Motions *motionptr);
 void analyze(struct Motions *motionptr);
-void findPeaks(char* axis, struct Motions *motionptr);
+void findPeaks(struct Motions *motionptr);
  
 /* Private functions ---------------------------------------------------------*/
 
@@ -206,12 +206,12 @@ int main( void )
   	   BSP_LED_Off(LED1);
        waitToProceed(&msTickPrev,10000);
 
-      BSP_LED_On(LED1);
+      /*BSP_LED_On(LED1);
 	  waitToProceed(&msTickPrev,3000); //start to stand still during this time
 	  //STAND STILL MOTION DATA ACQUISITION
 	  for(int r = 0; r < arraylength; r++)
 	  {
-		  AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle);; // = what is returned by accelero func
+		  AX_vals[r] = Accelero_Sensor_Handler( LSM6DSM_X_0_handle); // = what is returned by accelero func
 		  waitToProceed(&msTickPrev,DATA_PERIOD_MS);
 	  }
 	  BSP_LED_Off(LED1);
@@ -220,7 +220,7 @@ int main( void )
 		  standavg += AX_vals[r];
 	  }
 	  standavg /= arraylength;
-	  waitToProceed(&msTickPrev,10000);
+	  waitToProceed(&msTickPrev,10000);*/
 
 
        BSP_LED_On(LED1);
@@ -234,7 +234,7 @@ int main( void )
        BSP_LED_Off(LED1);
        normalize(&Normal);
        analyze(&Normal);
-       findPeaks("AX", &Normal);
+       findPeaks(&Normal);
        waitToProceed(&msTickPrev,10000);
 
 
@@ -249,7 +249,7 @@ int main( void )
        BSP_LED_Off(LED1);
        normalize(&Ascent);
        analyze(&Ascent);
-       findPeaks("AX", &Ascent);
+       findPeaks(&Ascent);
        waitToProceed(&msTickPrev,10000);
 
 
@@ -265,7 +265,7 @@ int main( void )
        BSP_LED_Off(LED1);
        normalize(&Descent);
        analyze(&Descent);
-       findPeaks("AX", &Descent);
+       findPeaks(&Descent);
 
  //------------------------------------------------------------------------------------------------------------------------------------
 
@@ -303,8 +303,8 @@ int main( void )
        analyze(&New);
 
 
-       //if (New.AX_peakavg > 1000000) //just check to see if min and max value are not that different
-       if ((abs(newrawavg - standavg) < 50) && (1))
+       if (New.AX_peakavg > 1000000) //just check to see if min and max value are not that different
+       //if ((abs(newrawavg - standavg) < 50) && (1))
        {
     	   sprintf( dataOut, "Still\n");
 			 CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
@@ -317,7 +317,7 @@ int main( void )
 
        }
 
-       findPeaks("AX", &New);
+       findPeaks(&New);
 
        New.AX_peakspefavg /= mean1;
        New.AX_peakspefavg -= mean2;
@@ -681,8 +681,6 @@ static void Error_Handler( void )
 
 void normalize(struct Motions *motionptr)
 {
-	static char dataOut[256];
-
     int absum = 0;
 
     for(int r = 0; r < arraylength; r++)
@@ -690,13 +688,7 @@ void normalize(struct Motions *motionptr)
         absum += abs(AX_vals[r]);
     }
 
-    //sprintf( dataOut, "final sum:  %i......arraylength: %i\n", absum, arraylength);
-    //CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
-
     double absavg = (double)absum/arraylength;
-    absavg = 0.00000123;
-    //sprintf( dataOut, "absavg: %f\n", 0.3);
-    //CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
 
     for(int r = 0; r < arraylength; r++)
     {
@@ -720,29 +712,16 @@ void analyze(struct Motions *motionptr)
     motionptr->AX_absavg = absum/arraylength;
 }
 
-void findPeaks(char* axis, struct Motions *motionptr)
+void findPeaks(struct Motions *motionptr)
 {
-    double *ptr;
-
-    if(!strcmp(axis, "AX"))
-    {
-        ptr = AX_vals;
-    }
-
-    else
-    {
-        printf("INVALID AXIS PROVIDED TO FINDPEAK FUNCTION");
-        return;
-    }
-
     double temppeakmax = -10000000000000;
     double peaksum = 0;
 
     for(int r = 0; r < arraylength; r++)
     {
-        if(ptr[r] > temppeakmax)
+        if(AX_vals[r] > temppeakmax)
         {
-            temppeakmax = ptr[r];
+            temppeakmax = AX_vals[r];
         }
 
         if( ((r+1)%dataps) == 0)
