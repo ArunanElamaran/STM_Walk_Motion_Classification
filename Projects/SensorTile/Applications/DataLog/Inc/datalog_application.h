@@ -43,7 +43,7 @@ uint8_t DATALOG_SD_Log_Enable(void);
 void DATALOG_SD_Log_Disable(void);
 void DATALOG_SD_NewLine(void);
 void RTC_Handler( RTC_HandleTypeDef *RtcHandle);
-double Accelero_Sensor_Handler( void *handle);
+void Accelero_Sensor_Handler( void *handle, float* arr);
 void floatToInt( float in, int32_t *out_int, int32_t *out_dec, int32_t dec_prec );
 void waitToProceed(uint32_t *msTickPrev, uint32_t data_period);
 

@@ -155,7 +155,7 @@ void RTC_Handler( RTC_HandleTypeDef *RtcHandle)
 * @param  handle the device handle
 * @retval None
 */
-double Accelero_Sensor_Handler( void *handle)
+void Accelero_Sensor_Handler( void *handle, float* arr)
 {
   uint8_t id;
   SensorAxes_t acceleration;
@@ -175,8 +175,8 @@ double Accelero_Sensor_Handler( void *handle)
     }
   }
 
-  double value = acceleration.AXIS_X;
-  return value;
+  arr[0] = acceleration.AXIS_X;
+  arr[1] = acceleration.AXIS_Z;
 }
 
 
