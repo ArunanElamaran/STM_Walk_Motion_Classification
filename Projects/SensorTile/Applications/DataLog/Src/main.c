@@ -54,8 +54,9 @@
 /* Private define ------------------------------------------------------------*/
 
 /* Data acquisition period [ms] */
-#define DATA_PERIOD_MS (5) //Try out 5.
-#define TOTAL_TIME     9000
+#define DATA_PERIOD_MS (5)
+#define TRAINING_TOTAL_TIME     9000 //5000
+#define DETECTION_TOTAL_TIME     5000
 #define INTERVAL       5
 //#define NOT_DEBUGGING
 
@@ -85,7 +86,8 @@ static void *HTS221_H_0_handle = NULL;
 static void *HTS221_T_0_handle = NULL;
 static void *GG_handle = NULL;
 
-int arraylength = TOTAL_TIME/INTERVAL;
+//int arraylength = TRAINING_TOTAL_TIME/INTERVAL;
+int arraylength;
 int dataps = 1000/INTERVAL;
 
 /* Private function prototypes -----------------------------------------------*/
@@ -108,7 +110,7 @@ struct Motions
     int AZ_rawavg;
 };
 
-float vals[TOTAL_TIME/INTERVAL][2];
+float vals[TRAINING_TOTAL_TIME/INTERVAL][2];
 
 
 /* MOTION DATA VARIABLE DECLARATION -----------------------------------------------*/
@@ -120,17 +122,21 @@ float vals[TOTAL_TIME/INTERVAL][2];
 /* GLOBAL VARIABLE DECLARATION -----------------------------------------------*/
 	int standavg = 0;
 	uint32_t msTick, msTickPrev = 0;
+	static char dataOut[256];
+	const char *motions[4];
  //------------------------------------------------------------------------------------------------------------------------------------
 
 
 /* Private functions prototype---------------------------------------------------------*/
-void actionfunc(struct Motions *motionptr);
+void actionfunc(struct Motions *motionptr, int motionnum);
 
 void normalize(struct Motions *motionptr);
 void analyzeavgs(struct Motions *motionptr);
 void AZrawavg(struct Motions *motionptr);
 void findPeaks(struct Motions *motionptr);
 void standevcalc(struct Motions *motionptr);
+void filter();
+void determine_arraylength(int motionnum);
  
 /* Private functions ---------------------------------------------------------*/
 
@@ -203,82 +209,21 @@ int main( void )
   enableAllSensors();
 
   BSP_ACCELERO_Set_FS_Value( LSM6DSM_X_0_handle , 104.0f);
+  //------------------------------------------------------------------------------------------------------------------------------------
 
-
-  static char dataOut[256];
-
+  motions[0] = "Motion";
+  motions[1] = "Normal";
+  motions[2] = "Ascent";
+  motions[3] = "Descent";
 
   //------------------------------------------------------------------------------------------------------------------------------------
   	   BSP_LED_Off(LED1);
+  	   waitToProceed(&msTickPrev,5000);
 
-       actionfunc(&Normal);
-       actionfunc(&Ascent);
-       actionfunc(&Descent);
+       actionfunc(&Normal, 1);
+       actionfunc(&Ascent, 2);
+       actionfunc(&Descent, 3);
 
-      /*BSP_LED_On(LED1);
-	  waitToProceed(&msTickPrev,3000); //start to stand still during this time
-	  //STAND STILL MOTION DATA ACQUISITION
-	  for(int r = 0; r < arraylength; r++)
-	  {
-		  Accelero_Sensor_Handler( LSM6DSM_X_0_handle, &(vals[r])); // = what is returned by accelero func
-		  waitToProceed(&msTickPrev,DATA_PERIOD_MS);
-	  }
-
-	  BSP_LED_Off(LED1);
-	  for(int r = 0; r < arraylength; r++)
-	  {
-		  standavg += vals[r][0];
-	  }
-	  standavg /= arraylength;
-	  waitToProceed(&msTickPrev,10000);
-
-
-       BSP_LED_On(LED1);
-       waitToProceed(&msTickPrev,3000); //start normally walking during this time
-       //NORMAL WALK MOTION DATA ACQUISITION
-       for(int r = 0; r < arraylength; r++)
-       {
-     	  Accelero_Sensor_Handler( LSM6DSM_X_0_handle, &(vals[r])); // = what is returned by accelero func
-     	  waitToProceed(&msTickPrev,DATA_PERIOD_MS);
-       }
-       BSP_LED_Off(LED1);
-       AZrawavg(&Normal);
-       normalize(&Normal);
-       analyzeavgs(&Normal);
-       findPeaks(&Normal);
-       waitToProceed(&msTickPrev,10000);
-
-
-       BSP_LED_On(LED1);
-       waitToProceed(&msTickPrev,3000); // start stair ascent during this time
-       //STAIR ASCENT MOTION DATA ACQUISITION
-       for(int r = 0; r < arraylength; r++)
-       {
-    	  Accelero_Sensor_Handler( LSM6DSM_X_0_handle, &(vals[r])); // = what is returned by accelero func
-     	  waitToProceed(&msTickPrev,DATA_PERIOD_MS);
-       }
-       BSP_LED_Off(LED1);
-       AZrawavg(&Ascent);
-       normalize(&Ascent);
-       analyzeavgs(&Ascent);
-       findPeaks(&Ascent);
-       waitToProceed(&msTickPrev,10000);
-
-
-
-       BSP_LED_On(LED1);
-       waitToProceed(&msTickPrev,3000);//start stair descent during this time
-       //STAIR DESCENT MOTION DATA ACQUISITION
-       for(int r = 0; r < arraylength; r++)
-       {
-    	 Accelero_Sensor_Handler( LSM6DSM_X_0_handle, &(vals[r])); // = what is returned by accelero func
-     	 waitToProceed(&msTickPrev,DATA_PERIOD_MS);
-       }
-       BSP_LED_Off(LED1);
-       AZrawavg(&Descent);
-       normalize(&Descent);
-       analyzeavgs(&Descent);
-       findPeaks(&Descent);*/
 
  //------------------------------------------------------------------------------------------------------------------------------------
 
@@ -293,58 +238,18 @@ int main( void )
        Normal.AX_peakspefavg -= mean2;
 
  //------------------------------------------------------------------------------------------------------------------------------------
-sprintf( dataOut, "Training complete\n");
+sprintf( dataOut, "Training complete\n\n\n");
 CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
 
 while(1)
 {
-      /*BSP_LED_On(LED1);
-	  waitToProceed(&msTickPrev,3000);//start new motion during this time
 
-	  //NEW MOTION DATA ACQUISITION
-	  for(int r = 0; r < arraylength; r++)
-	  {
-		 Accelero_Sensor_Handler( LSM6DSM_X_0_handle, &(vals[r])); // = what is returned by accelero func
-		 waitToProceed(&msTickPrev,DATA_PERIOD_MS);
-	  }
-	  BSP_LED_Off(LED1);
-
-	  analyzeavgs(&New);
-	  stan_dev = 0;
-
-	  for(int i = 0; i < arraylength; i++)
-	  {
-		  stan_dev += abs(New.AX_avg-vals[i][0]);
-	  }
-	  stan_dev /= arraylength;
-
-       //if (New.AX_peakavg > 1000000) //just check to see if min and max value are not that different
-       if (stan_dev < 100)
-       {
-    	   still = 1;
-    	   sprintf( dataOut, "Still\n");
-			 CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
-		   for(int i = 0; i < 1; i++) //Still
-		   {
-			  BSP_LED_On(LED1);
-			  waitToProceed(&msTickPrev,500);
-			  BSP_LED_Off(LED1);
-		   }
-
-       }
-
-       AZrawavg(&New);
-       normalize(&New);
-       analyzeavgs(&New);
-
-       findPeaks(&New);*/
-
-	   actionfunc(&New);
+	   actionfunc(&New, 0);
 
        New.AX_peakspefavg /= mean1;
        New.AX_peakspefavg -= mean2;
 
-       if (New.AX_stan_dev< 100)
+       if (New.AX_stan_dev< 50)
 	  {
     	   sprintf( dataOut, "Still\n");
     	   CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
@@ -711,11 +616,18 @@ static void Error_Handler( void )
   {}
 }
 
-void actionfunc(struct Motions *motionptr)
+void actionfunc(struct Motions *motionptr, int motionnum)
 {
-	waitToProceed(&msTickPrev,10000);
+	if(motionnum != 0)
+	{
+		waitToProceed(&msTickPrev,2000);
+	}
+	waitToProceed(&msTickPrev,3000);
+	determine_arraylength(motionnum);
+	sprintf( dataOut, "Perform %s, ", motions[motionnum]);
+	CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
    BSP_LED_On(LED1);
-   waitToProceed(&msTickPrev,3000);
+   waitToProceed(&msTickPrev,2000);//5000
    //DATA ACQUISITION
    for(int r = 0; r < arraylength; r++)
    {
@@ -723,8 +635,11 @@ void actionfunc(struct Motions *motionptr)
 	  waitToProceed(&msTickPrev,DATA_PERIOD_MS);
    }
    BSP_LED_Off(LED1);
+   sprintf( dataOut, "End of Motion\n");
+   	CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
    analyzeavgs(motionptr);
    standevcalc(motionptr);
+   filter();
    AZrawavg(motionptr);
    normalize(motionptr);
    analyzeavgs(motionptr);
@@ -783,7 +698,7 @@ void findPeaks(struct Motions *motionptr)
         }
     }
 
-    motionptr->AX_peakspefavg = peaksum/(TOTAL_TIME/1000);
+    motionptr->AX_peakspefavg = peaksum/(arraylength/dataps);
 }
 
 void AZrawavg(struct Motions *motionptr)
@@ -808,6 +723,27 @@ void standevcalc(struct Motions *motionptr)
 	  }
 
 	  motionptr->AX_stan_dev = stan_dev/arraylength;
+}
+
+void filter()
+{
+	for(int i = 1; i < arraylength; i++)
+	{
+		vals[i][1] = vals[i-1][1] + 0.08*(vals[i][1]-vals[i-1][1]);
+	}
+}
+
+void determine_arraylength(int motionnum)
+{
+	if(motionnum != 0)
+	{
+		arraylength = TRAINING_TOTAL_TIME/INTERVAL;
+	}
+
+	else
+	{
+		arraylength = DETECTION_TOTAL_TIME/INTERVAL;
+	}
 }
 
 
