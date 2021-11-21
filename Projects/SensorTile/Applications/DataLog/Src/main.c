@@ -90,6 +90,8 @@ static void *GG_handle = NULL;
 int arraylength;
 int dataps = 1000/INTERVAL;
 
+int stand_row = 0;
+
 /* Private function prototypes -----------------------------------------------*/
 
 static void Error_Handler( void );
@@ -241,7 +243,7 @@ int main( void )
 sprintf( dataOut, "Training complete\n\n\n");
 CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
 
-while(1)
+while(stand_row != 3) //test
 {
 
 	   actionfunc(&New, 0);
@@ -259,11 +261,14 @@ while(1)
     		   waitToProceed(&msTickPrev,500);
     		   BSP_LED_Off(LED1);
     	   }
+    	   stand_row += 1;
+    	   continue; //test
 	  }
+       stand_row = 0; //test
 
        //1. percentage error to normal
        //2. which difference is less
-       else if((fabs(New.AX_absavg-Ascent.AX_absavg) > fabs(New.AX_absavg-Normal.AX_absavg)) &&
+       if((fabs(New.AX_absavg-Ascent.AX_absavg) > fabs(New.AX_absavg-Normal.AX_absavg)) &&
            (fabs(New.AX_absavg-Descent.AX_absavg) > fabs(New.AX_absavg-Normal.AX_absavg)))
        {
     	   sprintf( dataOut, "Normal\n");
