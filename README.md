@@ -4,9 +4,9 @@ Under Distinguished Professor William Kaiser, our group has been exploring embed
 
 The Group:
 
-- Ryan Tabrizi
-- Arunan Elamaran
 - Kavin Balakrishnan
+- Arunan Elamaran
+- Ryan Tabrizi
 - Keshav Vyas
 - Michael Davydov
 - Atiksh Rao
