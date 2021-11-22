@@ -53,9 +53,11 @@
 
 /* Private define ------------------------------------------------------------*/
 
-/* Data acquisition period [ms] */
+/* Data acquisition period [ms]
+ *
+ * Can change the values below to experiment and see how different values will yield different results*/
 #define DATA_PERIOD_MS (5)
-#define TRAINING_TOTAL_TIME     9000 //5000
+#define TRAINING_TOTAL_TIME     9000
 #define DETECTION_TOTAL_TIME     5000
 #define INTERVAL       5
 //#define NOT_DEBUGGING
@@ -88,9 +90,9 @@ static void *GG_handle = NULL;
 
 //int arraylength = TRAINING_TOTAL_TIME/INTERVAL;
 int arraylength;
-int dataps = 1000/INTERVAL;
+int dataps = 1000/INTERVAL; //number of values retrieved per second
 
-int stand_row = 0;
+int stand_row = 0; //number of stand stills performed in a row
 
 /* Private function prototypes -----------------------------------------------*/
 
@@ -99,7 +101,9 @@ static void RTC_Config( void );
 static void RTC_TimeStampConfig( void );
 static void initializeAllSensors( void );
 
-/* MOTION DATA STORAGE -----------------------------------------------*/
+/* MOTION DATA STORAGE -----------------------------------------------
+ *
+ * Stored within this struct are the essential values/features that we use for motion classification*/
 
 struct Motions
 {
@@ -112,7 +116,7 @@ struct Motions
     int AZ_rawavg;
 };
 
-float vals[TRAINING_TOTAL_TIME/INTERVAL][2];
+float vals[TRAINING_TOTAL_TIME/INTERVAL][2]; //array within which collected data is stored after each motion is performed
 
 
 /* MOTION DATA VARIABLE DECLARATION -----------------------------------------------*/
@@ -130,15 +134,15 @@ float vals[TRAINING_TOTAL_TIME/INTERVAL][2];
 
 
 /* Private functions prototype---------------------------------------------------------*/
-void actionfunc(struct Motions *motionptr, int motionnum);
+void actionfunc(struct Motions *motionptr, int motionnum); //general function which utilizes the functions mentioned below
 
-void normalize(struct Motions *motionptr);
-void analyzeavgs(struct Motions *motionptr);
-void AZrawavg(struct Motions *motionptr);
-void findPeaks(struct Motions *motionptr);
-void standevcalc(struct Motions *motionptr);
-void filter();
-void determine_arraylength(int motionnum);
+void normalize(struct Motions *motionptr); //normalizes the data collected
+void analyzeavgs(struct Motions *motionptr); //analyzes collected data on the AX axis to determine the averages to be stored in the struct
+void AZrawavg(struct Motions *motionptr); //determines average of values on AZ axis
+void findPeaks(struct Motions *motionptr); //finds the peaks for each interval for the AX values
+void standevcalc(struct Motions *motionptr); //calculates standard deviation for values on AX axis
+void filter(); //filters the data in the AZ axis
+void determine_arraylength(int motionnum); //based on if program is in training or classification phase, will determine the amount of the array space used
  
 /* Private functions ---------------------------------------------------------*/
 
@@ -211,14 +215,14 @@ int main( void )
   enableAllSensors();
 
   BSP_ACCELERO_Set_FS_Value( LSM6DSM_X_0_handle , 104.0f);
-  //------------------------------------------------------------------------------------------------------------------------------------
+  //Motion Number - String Association--------------------------------------------------------------------------------------------------
 
   motions[0] = "Motion";
   motions[1] = "Normal";
   motions[2] = "Ascent";
   motions[3] = "Descent";
 
-  //------------------------------------------------------------------------------------------------------------------------------------
+  //Training Period--------------------------------------------------------------------------------------------------------------------
   	   BSP_LED_Off(LED1);
   	   waitToProceed(&msTickPrev,5000);
 
@@ -227,7 +231,7 @@ int main( void )
        actionfunc(&Descent, 3);
 
 
- //------------------------------------------------------------------------------------------------------------------------------------
+ //Prepare values below for classification phase--------------------------------------------------------------------------------------
 
        double mean1 = (Ascent.AX_peakspefavg+Descent.AX_peakspefavg+Normal.AX_peakspefavg)/3;
        Ascent.AX_peakspefavg /= mean1;
@@ -239,11 +243,11 @@ int main( void )
        Descent.AX_peakspefavg -= mean2;
        Normal.AX_peakspefavg -= mean2;
 
- //------------------------------------------------------------------------------------------------------------------------------------
+ //Classification Phase---------------------------------------------------------------------------------------------------------------
 sprintf( dataOut, "Training complete\n\n\n");
 CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
 
-while(stand_row != 3) //test
+while(stand_row < 3) //test
 {
 
 	   actionfunc(&New, 0);
@@ -262,13 +266,11 @@ while(stand_row != 3) //test
     		   BSP_LED_Off(LED1);
     	   }
     	   stand_row += 1;
-    	   continue; //test
 	  }
-       stand_row = 0; //test
 
        //1. percentage error to normal
        //2. which difference is less
-       if((fabs(New.AX_absavg-Ascent.AX_absavg) > fabs(New.AX_absavg-Normal.AX_absavg)) &&
+       else if((fabs(New.AX_absavg-Ascent.AX_absavg) > fabs(New.AX_absavg-Normal.AX_absavg)) &&
            (fabs(New.AX_absavg-Descent.AX_absavg) > fabs(New.AX_absavg-Normal.AX_absavg)))
        {
     	   sprintf( dataOut, "Normal\n");
@@ -279,10 +281,12 @@ while(stand_row != 3) //test
 			  waitToProceed(&msTickPrev,500);
 			  BSP_LED_Off(LED1);
 		   }
+		   stand_row = 0; //test
        }
 
        else
        {
+    	   stand_row = 0; //test
     	   if(((fabs(New.AX_peakspefavg - Ascent.AX_peakspefavg)) < (fabs(New.AX_peakspefavg - Descent.AX_peakspefavg)))
     			   || ((Descent.AZ_rawavg - New.AZ_rawavg) > 75))
            {
@@ -310,8 +314,15 @@ while(stand_row != 3) //test
         }
 
 }
- //------------------------------------------------------------------------------------------------------------------------------------
+ //Classification Phase Over----------------------------------------------------------------------------------------------------------
+for(int i = 0; i < 1000; i++) //Rapidly flashes LED for 5 seconds to indicate that program is over
+{
+  BSP_LED_On(LED1);
+  waitToProceed(&msTickPrev,50);
+  BSP_LED_Off(LED1);
+}
 
+//END OF Main Function
        while (1)
          {
            /* Get sysTick value and check if it's time to execute the task */
