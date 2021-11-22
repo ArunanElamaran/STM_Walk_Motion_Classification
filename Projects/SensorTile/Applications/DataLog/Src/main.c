@@ -90,7 +90,7 @@ static void *GG_handle = NULL;
 
 //int arraylength = TRAINING_TOTAL_TIME/INTERVAL;
 int arraylength;
-int dataps = 1000/INTERVAL; //number of values retrieved per second
+int dataps = 1000/INTERVAL; //number of values retrieved on each axis per second
 
 int stand_row = 0; //number of stand stills performed in a row
 

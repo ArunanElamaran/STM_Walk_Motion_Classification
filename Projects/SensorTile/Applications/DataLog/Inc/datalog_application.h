@@ -43,9 +43,9 @@ uint8_t DATALOG_SD_Log_Enable(void);
 void DATALOG_SD_Log_Disable(void);
 void DATALOG_SD_NewLine(void);
 void RTC_Handler( RTC_HandleTypeDef *RtcHandle);
-void Accelero_Sensor_Handler( void *handle, float* arr);
+void Accelero_Sensor_Handler( void *handle, float* arr); //records the AX and AZ values during a motion at a specific instant in time
 void floatToInt( float in, int32_t *out_int, int32_t *out_dec, int32_t dec_prec );
-void waitToProceed(uint32_t *msTickPrev, uint32_t data_period);
+void waitToProceed(uint32_t *msTickPrev, uint32_t data_period); //allows us to have time wait gaps in code
 
 
 #ifdef __cplusplus
