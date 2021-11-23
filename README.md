@@ -17,4 +17,4 @@ Creating this final result required much testing using various other resources s
 
 Also during the development stage, we used an early version of this final project for data aqusition to then be plotted using MATLAB code. The code can be found in the "data_acquisition" branch, also linked [here](https://github.com/codeboss123/STM_Motion/tree/data_acquisition).
 
-Our research paper is linked [here](https://docs.google.com/document/d/1rxYGlyEkDnYLEWZdulQaJeqwKm3KmoQd8krIPucXlYc/edit?usp=sharing).
+Our research paper is linked [here](https://docs.google.com/document/d/1Dmv1CYLk1WCE3NKRKtIhUC5z8HT66Ppcb2JrxmMr3K4/edit?usp=sharing).
