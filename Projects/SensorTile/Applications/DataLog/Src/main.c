@@ -224,6 +224,10 @@ int main( void )
 
   //Training Period--------------------------------------------------------------------------------------------------------------------
   	   BSP_LED_Off(LED1);
+  	 waitToProceed(&msTickPrev,2000);
+
+  	 sprintf( dataOut, "Start of Motion Classification Program. First is the training period.\n");
+  	 CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
   	   waitToProceed(&msTickPrev,5000);
 
        actionfunc(&Normal, 1);
@@ -247,13 +251,15 @@ int main( void )
 sprintf( dataOut, "Training complete\n\n\n");
 CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
 
-while(stand_row < 3) //test
+while(stand_row < 3)
 {
 
 	   actionfunc(&New, 0);
 
        New.AX_peakspefavg /= mean1;
        New.AX_peakspefavg -= mean2;
+
+       waitToProceed(&msTickPrev,500);
 
        if (New.AX_stan_dev< 50)
 	  {
@@ -281,12 +287,12 @@ while(stand_row < 3) //test
 			  waitToProceed(&msTickPrev,500);
 			  BSP_LED_Off(LED1);
 		   }
-		   stand_row = 0; //test
+		   stand_row = 0;
        }
 
        else
        {
-    	   stand_row = 0; //test
+    	   stand_row = 0;
     	   if(((fabs(New.AX_peakspefavg - Ascent.AX_peakspefavg)) < (fabs(New.AX_peakspefavg - Descent.AX_peakspefavg)))
     			   || ((Descent.AZ_rawavg - New.AZ_rawavg) > 75))
            {
@@ -315,88 +321,19 @@ while(stand_row < 3) //test
 
 }
  //Classification Phase Over----------------------------------------------------------------------------------------------------------
-for(int i = 0; i < 1000; i++) //Rapidly flashes LED for 5 seconds to indicate that program is over
+sprintf( dataOut, "END OF PROGRAM\n");
+CDC_Fill_Buffer(( uint8_t * )dataOut, strlen( dataOut ));
+
+for(int i = 0; i < 25; i++) //Rapidly flashes LED for 5 seconds to indicate that program is over
 {
   BSP_LED_On(LED1);
-  waitToProceed(&msTickPrev,50);
+  waitToProceed(&msTickPrev,100);
   BSP_LED_Off(LED1);
+  waitToProceed(&msTickPrev,100);
 }
 
 //END OF Main Function
-       while (1)
-         {
-           /* Get sysTick value and check if it's time to execute the task */
-           msTick = HAL_GetTick();
-           if(msTick % DATA_PERIOD_MS == 0 && msTickPrev != msTick)
-           {
-             msTickPrev = msTick;
-             if(SendOverUSB)
-             {
-               //BSP_LED_On(LED1);
-             }
-       #ifdef NOT_DEBUGGING
-             else if (SD_Log_Enabled)
-             {
-               BSP_LED_On(LEDSWD);
-             }
-       #endif
-
-
-             //Accelero_Sensor_Handler( LSM6DSM_X_0_handle);
-
-
-             //BSP_LED_On(LED1);
-
-             if(SD_Log_Enabled) /* Write data to the file on the SDCard */
-             {
-               DATALOG_SD_NewLine();
-             }
-
-             if(SendOverUSB)
-             {
-               BSP_LED_Off(LED1);
-             }
-       #ifdef NOT_DEBUGGING
-             else if (SD_Log_Enabled)
-             {
-               BSP_LED_Off(LEDSWD);
-             }
-       #endif
-           }
-
-           /* Check LSM6DSM Double Tap Event  */
-           if(MEMSInterrupt)
-           {
-             MEMSInterrupt = 0;
-             BSP_ACCELERO_Get_Double_Tap_Detection_Status_Ext(LSM6DSM_X_0_handle,&doubleTap);
-             if(doubleTap) { /* Double Tap event */
-               if (SD_Log_Enabled)
-               {
-                 DATALOG_SD_Log_Disable();
-                 SD_Log_Enabled=0;
-               }
-               else
-               {
-                 while(SD_Log_Enabled != 1)
-                 {
-                   if(DATALOG_SD_Log_Enable())
-                   {
-                     SD_Log_Enabled=1;
-                   }
-                   else
-                   {
-                     DATALOG_SD_Log_Disable();
-                   }
-                   HAL_Delay(100);
-                 }
-               }
-             }
-           }
-
-           /* Go to Sleep */
-           __WFI();
-         }
-       }
+}
 
 
 
